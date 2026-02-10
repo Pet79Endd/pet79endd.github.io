@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Paz Solar</title>
 
-<!-- Swiper -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
 <style>
@@ -25,7 +23,7 @@
 
 section { width: 100%; }
 
-/* ---------- MENU ---------- */
+/* ===== MENU ===== */
 .header {
   position: absolute;
   top: 0;
@@ -55,16 +53,15 @@ section { width: 100%; }
 
 .nav a:hover { color: var(--blue-dark); }
 
-/* ---------- HERO ---------- */
+/* ===== HERO ===== */
 .hero {
   height: 100vh;
   background: url("img/solar.jpg") center/cover no-repeat;
 }
 
-/* ---------- SEÇÃO 2 ---------- */
+/* ===== SEÇÃO 2 ===== */
 .section-2 {
   padding: 100px 15%;
-  background: #fff;
   text-align: center;
 }
 
@@ -84,14 +81,14 @@ section { width: 100%; }
 .whatsapp-btn {
   background: var(--green);
   padding: 20px 40px;
-  text-decoration: none;
   font-size: 1.4rem;
   font-weight: bold;
   color: #000;
+  text-decoration: none;
   border-radius: 8px;
 }
 
-/* ---------- SEÇÃO 3 ---------- */
+/* ===== SEÇÃO 3 ===== */
 .section-3 {
   background: var(--blue-dark);
   color: #fff;
@@ -117,14 +114,14 @@ section { width: 100%; }
 
 .simulacao-btn {
   background: #fff;
+  color: #000;
   padding: 18px 40px;
   text-decoration: none;
   font-weight: bold;
   border-radius: 8px;
-  color: #000;
 }
 
-/* ---------- SEÇÃO 4 ---------- */
+/* ===== SEÇÃO 4 ===== */
 .section-4 {
   padding: 100px 10%;
   display: flex;
@@ -134,17 +131,7 @@ section { width: 100%; }
 
 .section-4 img { width: 40%; }
 
-.section-4 h2 {
-  font-size: 3rem;
-  margin-bottom: 30px;
-}
-
-.section-4 p {
-  font-size: 1.4rem;
-  line-height: 1.8;
-}
-
-/* ---------- SEÇÃO 5 ---------- */
+/* ===== SEÇÃO 5 ===== */
 .section-5 {
   padding: 100px 10%;
   display: flex;
@@ -154,15 +141,7 @@ section { width: 100%; }
 
 .section-5 img { width: 40%; }
 
-.section-5 ul {
-  list-style: none;
-  font-size: 1.4rem;
-  line-height: 2.2;
-}
-
-.section-5 strong { font-size: 1.6rem; }
-
-/* ---------- SEÇÃO POSTS ---------- */
+/* ===== POSTS ===== */
 .section-posts {
   background: var(--blue-dark);
   color: #fff;
@@ -181,7 +160,6 @@ section { width: 100%; }
   overflow: hidden;
   text-decoration: none;
   color: #000;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
 .post-card img {
@@ -193,9 +171,9 @@ section { width: 100%; }
 .post-title { padding: 18px; }
 
 .post-date {
-  display: block;
   font-size: 0.9rem;
   opacity: 0.7;
+  display: block;
   margin-bottom: 6px;
 }
 
@@ -208,12 +186,12 @@ section { width: 100%; }
 .swiper-button-prev { color: #fff; }
 
 .swiper-scrollbar {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.3);
 }
 
 .swiper-scrollbar-drag { background: #fff; }
 
-/* ---------- SEÇÃO 6 ---------- */
+/* ===== SEÇÃO 6 ===== */
 .section-6 {
   background: var(--peach);
   padding: 120px 10%;
@@ -231,8 +209,6 @@ section { width: 100%; }
 }
 
 .section-6 .cta-btn {
-  margin-top: 40px;
-  display: inline-block;
   background: var(--blue-dark);
   color: #fff;
   padding: 25px 60px;
@@ -240,36 +216,20 @@ section { width: 100%; }
   text-decoration: none;
   border-radius: 12px;
   font-weight: bold;
+  display: inline-block;
+  margin-top: 40px;
 }
 
-/* ---------- SEÇÃO 7 ---------- */
+/* ===== SEÇÃO 7 ===== */
 .section-7 {
-  background: #fff;
   padding: 80px 10%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-}
-
-.contact-info {
-  font-size: 1.35rem;
-  line-height: 3;
 }
 
 .social-icons img {
   width: 44px;
   margin-left: 30px;
-}
-
-/* ---------- RESPONSIVO ---------- */
-@media (max-width: 900px) {
-  .section-3,
-  .section-4,
-  .section-5,
-  .section-7 {
-    flex-direction: column;
-    text-align: center;
-  }
 }
 </style>
 </head>
@@ -287,33 +247,24 @@ section { width: 100%; }
 <section class="hero"></section>
 
 <section class="section-2">
-  <h2>ECONOMIZE ATÉ 20% NA SUA CONTA DE LUZ <span>SEM PRECISAR INSTALAR PLACAS SOLARES</span></h2>
-  <p>
-    Com a Paz Solar, você economiza sem obras ou investimentos.<br><br>
-    Energia limpa direto na sua conta.
-  </p>
-  <a class="whatsapp-btn" href="https://wa.me/5584996710787" target="_blank">Fale no WhatsApp</a>
+  <h2>ECONOMIZE ATÉ 20% NA SUA CONTA <span>SEM PLACAS</span></h2>
+  <p>Energia solar compartilhada sem obras.</p>
+  <a class="whatsapp-btn" href="https://wa.me/5584996710787">WhatsApp</a>
 </section>
 
 <section class="section-3">
   <img src="img/painel2.jpg">
   <div class="section-3-content">
-    <h2>Como funciona a energia solar compartilhada?</h2>
-    <p>
-      1️⃣ Geração solar<br>
-      2️⃣ Créditos na conta<br>
-      3️⃣ Economia imediata
-    </p>
-    <a class="simulacao-btn" href="simulacao.html">Faça uma simulação</a>
+    <h2>Como funciona?</h2>
+    <p>Geração → Créditos → Economia</p>
+    <a class="simulacao-btn" href="simulacao.html">Simule agora</a>
   </div>
 </section>
 
 <section class="section-4">
   <div>
     <h2>Quem somos</h2>
-    <p>
-      A Paz Solar é uma startup potiguar especializada em energia solar compartilhada.
-    </p>
+    <p>Startup potiguar de energia solar.</p>
   </div>
   <img src="img/painel3.jpg">
 </section>
@@ -321,16 +272,13 @@ section { width: 100%; }
 <section class="section-5">
   <img src="img/painel4.jpg">
   <ul>
-    <li><strong>Missão:</strong> Energia limpa acessível.</li>
-    <li><strong>Visão:</strong> Referência no RN.</li>
-    <li><strong>Valores:</strong> Sustentabilidade • Transparência • Inovação</li>
+    <li><strong>Missão:</strong> Energia limpa</li>
+    <li><strong>Visão:</strong> Referência no RN</li>
   </ul>
 </section>
 
-<!-- POSTS -->
 <section class="section-posts">
   <h2>Conteúdos & Novidades</h2>
-
   <div class="swiper posts-swiper">
     <div class="swiper-wrapper" id="posts-container"></div>
     <div class="swiper-button-prev"></div>
@@ -340,81 +288,64 @@ section { width: 100%; }
 </section>
 
 <section class="section-6">
-  <h2>Quer saber quanto você economizaria?</h2>
-  <p>Simule agora sua economia com energia solar compartilhada</p>
-  <p>Preencha o formulário e aguarde nosso contato</p>
-  <a class="cta-btn" href="cliente.html">Cadastre-se!</a>
+  <h2>Quer saber quanto economiza?</h2>
+  <p>Faça sua simulação agora</p>
+  <a class="cta-btn" href="cliente.html">Cadastre-se</a>
 </section>
 
 <section class="section-7">
-  <div class="contact-info">
+  <div>
     <p>📞 (84) 99671-0787</p>
-    <p>📍 Distrito Industrial - Macaíba/RN</p>
+    <p>📍 Macaíba/RN</p>
     <p>✉️ adm@pazsolar.com</p>
-    <p>🌐 www.pazsolar.com.br</p>
   </div>
-
   <div class="social-icons">
-    <a href="https://wa.me/5584996710787" target="_blank">
-      <img src="img/WhatsApp-icone2.jpg">
-    </a>
-    <a href="https://instagram.com/pazsolarenergia" target="_blank">
-      <img src="img/instagram-icone-icon2.jpg">
-    </a>
-    <a href="https://facebook.com/pazsolar.com" target="_blank">
-      <img src="img/facebook-icon2.jpg">
-    </a>
+    <img src="img/WhatsApp-icone2.jpg">
+    <img src="img/instagram-icone-icon2.jpg">
+    <img src="img/facebook-icon2.jpg">
   </div>
 </section>
 
-<!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-const posts = [
-  { data: "20/02/2026", titulo: "Nova parceria anunciada", imagem: "img/post4.jpg", link: "#" },
-  { data: "05/02/2026", titulo: "Nova usina solar em operação", imagem: "img/post1.jpg", link: "#" },
-  { data: "28/01/2026", titulo: "Economize até 20% na conta", imagem: "img/post2.jpg", link: "#" },
-  { data: "15/01/2026", titulo: "Energia solar compartilhada", imagem: "img/post3.jpg", link: "#" }
-];
-
 function parseDateBR(d){
   const [dia, mes, ano] = d.split("/");
   return new Date(ano, mes - 1, dia);
 }
 
-posts.sort((a,b) => parseDateBR(b.data) - parseDateBR(a.data));
+fetch("posts.json")
+  .then(res => res.json())
+  .then(posts => {
+    posts.sort((a,b) => parseDateBR(b.data) - parseDateBR(a.data));
 
-const container = document.getElementById("posts-container");
+    const container = document.getElementById("posts-container");
 
-posts.forEach(p => {
-  container.innerHTML += `
-    <div class="swiper-slide">
-      <a class="post-card" href="${p.link}" target="_blank">
-        <img src="${p.imagem}">
-        <div class="post-title">
-          <span class="post-date">${p.data}</span>
-          <span class="post-text">${p.titulo}</span>
+    posts.forEach(p => {
+      container.innerHTML += `
+        <div class="swiper-slide">
+          <a class="post-card" href="${p.link}" target="_blank">
+            <img src="${p.imagem}">
+            <div class="post-title">
+              <span class="post-date">${p.data}</span>
+              <span class="post-text">${p.titulo}</span>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-  `;
-});
+      `;
+    });
 
-new Swiper(".posts-swiper", {
-  slidesPerView: 2.5,
-  spaceBetween: 30,
-  freeMode: true,
-  mousewheel: true,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev"
-  },
-  scrollbar: {
-    el: ".swiper-scrollbar",
-    draggable: true
-  }
-});
+    new Swiper(".posts-swiper", {
+      slidesPerView: 2.5,
+      spaceBetween: 30,
+      freeMode: true,
+      scrollbar: { el: ".swiper-scrollbar", draggable: true },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      }
+    });
+  });
 </script>
 
 </body>
