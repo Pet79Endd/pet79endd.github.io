@@ -1,0 +1,26 @@
+[
+  {
+    "data": "20/02/2026",
+    "titulo": "Nova parceria anunciada",
+    "imagem": "img/post4.jpg",
+    "link": "https://www.instagram.com/p/XXXX"
+  },
+  {
+    "data": "05/02/2026",
+    "titulo": "Nova usina solar em operação",
+    "imagem": "img/post1.jpg",
+    "link": "https://www.facebook.com/XXXX"
+  },
+  {
+    "data": "28/01/2026",
+    "titulo": "Economize até 20% na conta",
+    "imagem": "img/post2.jpg",
+    "link": "cliente.html"
+  },
+  {
+    "data": "15/01/2026",
+    "titulo": "Energia solar compartilhada",
+    "imagem": "img/post3.jpg",
+    "link": "https://instagram.com/pazsolarenergia"
+  }
+]
