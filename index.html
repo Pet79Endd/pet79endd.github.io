@@ -325,7 +325,7 @@ fetch("posts.json")
       container.innerHTML += `
         <div class="swiper-slide">
           <a class="post-card" href="${p.link}" target="_blank">
-            <img src="${p.imagem}">
+            <img src="${p.imagem}" loading="lazy">
             <div class="post-title">
               <span class="post-date">${p.data}</span>
               <span class="post-text">${p.titulo}</span>
@@ -336,7 +336,7 @@ fetch("posts.json")
     });
 
     new Swiper(".posts-swiper", {
-      slidesPerView: 2.5,
+      slidesPerView: 3.5,
       spaceBetween: 30,
       freeMode: true,
       scrollbar: { el: ".swiper-scrollbar", draggable: true },
