@@ -6,7 +6,7 @@
 
 <title>Paz Solar</title>
 
-<!-- Swiper CSS -->
+<!-- Swiper -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
 <style>
@@ -64,6 +64,7 @@ section { width: 100%; }
 /* ---------- SEÇÃO 2 ---------- */
 .section-2 {
   padding: 100px 15%;
+  background: #fff;
   text-align: center;
 }
 
@@ -72,10 +73,11 @@ section { width: 100%; }
   margin-bottom: 40px;
 }
 
-.section-2 span { color: var(--blue-dark); }
+.section-2 h2 span { color: var(--blue-dark); }
 
 .section-2 p {
   font-size: 1.6rem;
+  line-height: 1.6;
   margin-bottom: 50px;
 }
 
@@ -100,6 +102,7 @@ section { width: 100%; }
 }
 
 .section-3 img { width: 40%; }
+
 .section-3-content { width: 60%; }
 
 .section-3-content h2 {
@@ -136,6 +139,29 @@ section { width: 100%; }
   margin-bottom: 30px;
 }
 
+.section-4 p {
+  font-size: 1.4rem;
+  line-height: 1.8;
+}
+
+/* ---------- SEÇÃO 5 ---------- */
+.section-5 {
+  padding: 100px 10%;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.section-5 img { width: 40%; }
+
+.section-5 ul {
+  list-style: none;
+  font-size: 1.4rem;
+  line-height: 2.2;
+}
+
+.section-5 strong { font-size: 1.6rem; }
+
 /* ---------- SEÇÃO POSTS ---------- */
 .section-posts {
   background: var(--blue-dark);
@@ -149,57 +175,43 @@ section { width: 100%; }
   margin-bottom: 50px;
 }
 
-.posts-swiper { padding-bottom: 60px; }
-
 .post-card {
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
   text-decoration: none;
   color: #000;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
 .post-card img {
   width: 100%;
-  height: 280px;
+  height: 300px;
   object-fit: cover;
-  display: block;
 }
 
-.post-title { padding: 16px; }
+.post-title { padding: 18px; }
 
 .post-date {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   opacity: 0.7;
   margin-bottom: 6px;
 }
 
 .post-text {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  line-height: 1.3;
 }
 
 .swiper-button-next,
 .swiper-button-prev { color: #fff; }
 
 .swiper-scrollbar {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.25);
 }
 
 .swiper-scrollbar-drag { background: #fff; }
-
-/* ---------- SEÇÃO 5 ---------- */
-.section-5 {
-  padding: 100px 10%;
-  display: flex;
-  gap: 60px;
-  align-items: center;
-}
-
-.section-5 img { width: 40%; }
 
 /* ---------- SEÇÃO 6 ---------- */
 .section-6 {
@@ -208,11 +220,40 @@ section { width: 100%; }
   text-align: center;
 }
 
+.section-6 h2 {
+  font-size: 4.4rem;
+  margin-bottom: 30px;
+}
+
+.section-6 p {
+  font-size: 2.04rem;
+  margin-bottom: 20px;
+}
+
+.section-6 .cta-btn {
+  margin-top: 40px;
+  display: inline-block;
+  background: var(--blue-dark);
+  color: #fff;
+  padding: 25px 60px;
+  font-size: 2.04rem;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
 /* ---------- SEÇÃO 7 ---------- */
 .section-7 {
+  background: #fff;
   padding: 80px 10%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+}
+
+.contact-info {
+  font-size: 1.35rem;
+  line-height: 3;
 }
 
 .social-icons img {
@@ -247,7 +288,10 @@ section { width: 100%; }
 
 <section class="section-2">
   <h2>ECONOMIZE ATÉ 20% NA SUA CONTA DE LUZ <span>SEM PRECISAR INSTALAR PLACAS SOLARES</span></h2>
-  <p>Energia limpa, sem investimento e sem obras.</p>
+  <p>
+    Com a Paz Solar, você economiza sem obras ou investimentos.<br><br>
+    Energia limpa direto na sua conta.
+  </p>
   <a class="whatsapp-btn" href="https://wa.me/5584996710787" target="_blank">Fale no WhatsApp</a>
 </section>
 
@@ -255,7 +299,11 @@ section { width: 100%; }
   <img src="img/painel2.jpg">
   <div class="section-3-content">
     <h2>Como funciona a energia solar compartilhada?</h2>
-    <p>Energia gerada → créditos → desconto na conta.</p>
+    <p>
+      1️⃣ Geração solar<br>
+      2️⃣ Créditos na conta<br>
+      3️⃣ Economia imediata
+    </p>
     <a class="simulacao-btn" href="simulacao.html">Faça uma simulação</a>
   </div>
 </section>
@@ -263,11 +311,23 @@ section { width: 100%; }
 <section class="section-4">
   <div>
     <h2>Quem somos</h2>
-    <p>A Paz Solar é uma startup potiguar focada em energia limpa acessível.</p>
+    <p>
+      A Paz Solar é uma startup potiguar especializada em energia solar compartilhada.
+    </p>
   </div>
   <img src="img/painel3.jpg">
 </section>
 
+<section class="section-5">
+  <img src="img/painel4.jpg">
+  <ul>
+    <li><strong>Missão:</strong> Energia limpa acessível.</li>
+    <li><strong>Visão:</strong> Referência no RN.</li>
+    <li><strong>Valores:</strong> Sustentabilidade • Transparência • Inovação</li>
+  </ul>
+</section>
+
+<!-- POSTS -->
 <section class="section-posts">
   <h2>Conteúdos & Novidades</h2>
 
@@ -279,76 +339,68 @@ section { width: 100%; }
   </div>
 </section>
 
-<section class="section-5">
-  <img src="img/painel4.jpg">
-  <ul>
-    <li><strong>Missão:</strong> Energia limpa para todos.</li>
-    <li><strong>Visão:</strong> Referência no RN.</li>
-    <li><strong>Valores:</strong> Sustentabilidade e transparência.</li>
-  </ul>
+<section class="section-6">
+  <h2>Quer saber quanto você economizaria?</h2>
+  <p>Simule agora sua economia com energia solar compartilhada</p>
+  <p>Preencha o formulário e aguarde nosso contato</p>
+  <a class="cta-btn" href="cliente.html">Cadastre-se!</a>
 </section>
 
-<!-- Swiper JS -->
+<section class="section-7">
+  <div class="contact-info">
+    <p>📞 (84) 99671-0787</p>
+    <p>📍 Distrito Industrial - Macaíba/RN</p>
+    <p>✉️ adm@pazsolar.com</p>
+    <p>🌐 www.pazsolar.com.br</p>
+  </div>
+
+  <div class="social-icons">
+    <a href="https://wa.me/5584996710787" target="_blank">
+      <img src="img/WhatsApp-icone2.jpg">
+    </a>
+    <a href="https://instagram.com/pazsolarenergia" target="_blank">
+      <img src="img/instagram-icone-icon2.jpg">
+    </a>
+    <a href="https://facebook.com/pazsolar.com" target="_blank">
+      <img src="img/facebook-icon2.jpg">
+    </a>
+  </div>
+</section>
+
+<!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
 const posts = [
-  {
-    data: "05/02/2026",
-    titulo: "Nova usina solar em operação",
-    imagem: "img/post1.jpg",
-    link: "https://www.instagram.com/p/XXXX"
-  },
-  {
-    data: "28/01/2026",
-    titulo: "Economize até 20% na conta de luz",
-    imagem: "img/post2.jpg",
-    link: "https://www.facebook.com/XXXX"
-  },
-  {
-    data: "15/01/2026",
-    titulo: "Energia solar compartilhada",
-    imagem: "img/post3.jpg",
-    link: "cliente.html"
-  },
-  {
-    data: "20/02/2026",
-    titulo: "Nova parceria anunciada",
-    imagem: "img/post4.jpg",
-    link: "https://instagram.com/pazsolarenergia"
-  }
+  { data: "20/02/2026", titulo: "Nova parceria anunciada", imagem: "img/post4.jpg", link: "#" },
+  { data: "05/02/2026", titulo: "Nova usina solar em operação", imagem: "img/post1.jpg", link: "#" },
+  { data: "28/01/2026", titulo: "Economize até 20% na conta", imagem: "img/post2.jpg", link: "#" },
+  { data: "15/01/2026", titulo: "Energia solar compartilhada", imagem: "img/post3.jpg", link: "#" }
 ];
 
-/* Converte DD/MM/AAAA para Date */
-function parseDateBR(data) {
-  const [d, m, a] = data.split("/");
-  return new Date(a, m - 1, d);
+function parseDateBR(d){
+  const [dia, mes, ano] = d.split("/");
+  return new Date(ano, mes - 1, dia);
 }
 
-/* Ordena por data (mais recente primeiro) */
-posts.sort((a, b) => parseDateBR(b.data) - parseDateBR(a.data));
+posts.sort((a,b) => parseDateBR(b.data) - parseDateBR(a.data));
 
 const container = document.getElementById("posts-container");
 
-/* Renderiza */
-posts.forEach(post => {
-  const slide = document.createElement("div");
-  slide.className = "swiper-slide";
-
-  slide.innerHTML = `
-    <a href="${post.link}" target="_blank" class="post-card">
-      <img src="${post.imagem}" alt="${post.titulo}">
-      <div class="post-title">
-        <span class="post-date">${post.data}</span>
-        <span class="post-text">${post.titulo}</span>
-      </div>
-    </a>
+posts.forEach(p => {
+  container.innerHTML += `
+    <div class="swiper-slide">
+      <a class="post-card" href="${p.link}" target="_blank">
+        <img src="${p.imagem}">
+        <div class="post-title">
+          <span class="post-date">${p.data}</span>
+          <span class="post-text">${p.titulo}</span>
+        </div>
+      </a>
+    </div>
   `;
-
-  container.appendChild(slide);
 });
 
-/* Swiper */
 new Swiper(".posts-swiper", {
   slidesPerView: 2.5,
   spaceBetween: 30,
