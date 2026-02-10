@@ -1,26 +1,32 @@
 [
   {
-    "data": "20/02/2026",
-    "titulo": "Nova parceria anunciada",
-    "imagem": "img/post4.jpg",
-    "link": "https://www.instagram.com/p/XXXX"
+    "data": "07/02/2026",
+    "titulo": "Aumento na conta de energia solar",
+    "imagem": "img/post_20260207.jpg",
+    "link": "https://globoplay.globo.com/v/14321318/"
   },
   {
-    "data": "05/02/2026",
-    "titulo": "Nova usina solar em operação",
-    "imagem": "img/post1.jpg",
-    "link": "https://www.facebook.com/XXXX"
+    "data": "06/02/2026",
+    "titulo": "PROTESTO 💡 Na manhã desta sexta-feira (6), usuários de energia solar realizaram uma mobilização na frente da sede da Neoenergia Cosern",
+    "imagem": "img/post_20260206.jpg",
+    "link": "https://www.facebook.com/share/r/1GbjL67LgT/"
   },
   {
-    "data": "28/01/2026",
-    "titulo": "Economize até 20% na conta",
-    "imagem": "img/post2.jpg",
-    "link": "cliente.html"
+    "data": "03/12/2025",
+    "titulo": "Cinco projetos de incentivo às renováveis que podem virar lei em 2026",
+    "imagem": "img/post_20260130.jpg",
+    "link": "https://canalsolar.com.br/cinco-projetos-renovaveis-que-podem-virar-lei/"
   },
   {
-    "data": "15/01/2026",
-    "titulo": "Energia solar compartilhada",
-    "imagem": "img/post3.jpg",
-    "link": "https://instagram.com/pazsolarenergia"
+    "data": "26/11/2025",
+    "titulo": "Nova lei da energia solar - Entenda o que mudou - Lei 15.269 / 2025",
+    "imagem": "img/post_20251126.jpg",
+    "link": "https://www.youtube.com/watch?v=GQkvrr6k5rE"
+  },
+  {
+    "data": "11/11/2025",
+    "titulo": "MP do setor elétrico estabelece regras de compensação às usinas verdes",
+    "imagem": "img/post_20251111.jpg",
+    "link": "https://www.youtube.com/watch?v=Sn5PQelmlRw"
   }
-]
+  ]
