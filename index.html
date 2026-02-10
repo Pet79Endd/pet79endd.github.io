@@ -6,6 +6,9 @@
 
 <title>Paz Solar</title>
 
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
 <style>
 :root {
   --blue-dark: rgb(20,100,130);
@@ -160,6 +163,56 @@ section {
   width: 40%;
 }
 
+/* ---------- SEÇÃO POSTS (BACKGROUND IGUAL SEÇÃO 3) ---------- */
+.section-posts {
+  background: var(--blue-dark);
+  color: #fff;
+  padding: 100px 10%;
+}
+
+.section-posts h2 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.posts-swiper {
+  padding: 20px 10px 60px;
+}
+
+.post-card {
+  display: block;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-6px);
+}
+
+.post-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.post-title {
+  padding: 18px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+}
+
 /* ---------- SEÇÃO 5 ---------- */
 .section-5 {
   padding: 100px 10%;
@@ -275,8 +328,7 @@ section {
     Com a Paz Solar, você não precisa investir em equipamentos nem fazer obras.<br><br>
     Nós geramos energia solar em nossa usina e enviamos créditos de energia limpa direto para a sua conta.
   </p>
-  <a class="whatsapp-btn" target="_blank"
-     href="https://wa.me/5584996710787">
+  <a class="whatsapp-btn" target="_blank" href="https://wa.me/5584996710787">
     Fale com a gente no WhatsApp!
   </a>
 </section>
@@ -305,6 +357,18 @@ section {
   <img src="img/painel3.jpg">
 </section>
 
+<!-- NOVA SEÇÃO DE POSTS -->
+<section class="section-posts">
+  <h2>Conteúdos & Novidades</h2>
+
+  <div class="swiper posts-swiper">
+    <div class="swiper-wrapper" id="posts-container"></div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</section>
+
 <section class="section-5">
   <img src="img/painel4.jpg">
   <ul>
@@ -331,17 +395,80 @@ section {
 
   <div class="social-icons">
     <a href="https://wa.me/5584996710787" target="_blank">
-      <img src="img/WhatsApp-icone2.jpg" alt="WhatsApp">
+      <img src="img/WhatsApp-icone2.jpg">
     </a>
     <a href="https://instagram.com/pazsolarenergia" target="_blank">
-      <img src="img/instagram-icone-icon2.jpg" alt="Instagram">
+      <img src="img/instagram-icone-icon2.jpg">
     </a>
     <a href="https://facebook.com/pazsolar.com" target="_blank">
-      <img src="img/facebook-icon2.jpg" alt="Facebook">
+      <img src="img/facebook-icon2.jpg">
     </a>
   </div>
 </section>
 
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+const posts = [
+  {
+    titulo: "Nova usina solar em operação",
+    imagem: "img/post1.jpg",
+    link: "https://www.instagram.com/p/XXXX"
+  },
+  {
+    titulo: "Economize até 20% na conta de luz",
+    imagem: "img/post2.jpg",
+    link: "https://www.facebook.com/XXXX"
+  },
+  {
+    titulo: "Energia solar compartilhada: entenda",
+    imagem: "img/post3.jpg",
+    link: "cliente.html"
+  },
+  {
+    titulo: "Projeto sustentável no RN",
+    imagem: "img/post4.jpg",
+    link: "https://instagram.com/pazsolarenergia"
+  },
+  {
+    titulo: "Veja como funciona a simulação",
+    imagem: "img/post5.jpg",
+    link: "simulacao.html"
+  }
+];
+
+const container = document.getElementById("posts-container");
+
+posts.forEach(post => {
+  const slide = document.createElement("div");
+  slide.className = "swiper-slide";
+
+  slide.innerHTML = `
+    <a href="${post.link}" target="_blank" class="post-card">
+      <img src="${post.imagem}" alt="${post.titulo}">
+      <div class="post-title">${post.titulo}</div>
+    </a>
+  `;
+
+  container.appendChild(slide);
+});
+
+new Swiper(".posts-swiper", {
+  slidesPerView: 5,
+  spaceBetween: 30,
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev"
+  },
+  breakpoints: {
+    0: { slidesPerView: 1.2 },
+    600: { slidesPerView: 2.2 },
+    900: { slidesPerView: 3 },
+    1200: { slidesPerView: 5 }
+  }
+});
+</script>
+
 </body>
 </html>
-
