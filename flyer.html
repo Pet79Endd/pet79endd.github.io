@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Panfleto PAZ Solar</title>
+
+<style>
+/* CONFIGURAÇÃO DE IMPRESSÃO */
+@page {
+  size: 20cm 14cm;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 20cm;
+  height: 14cm;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: 
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("img/fundo-solar.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+/* CONTAINER GERAL */
+.flyer {
+  padding: 1.2cm;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* TOPO */
+.topo {
+  text-align: center;
+}
+
+.topo h1 {
+  font-size: 40px;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.destaque {
+  margin-top: 10px;
+  font-size: 90px;
+  font-weight: bold;
+  color: #FFD400;
+  line-height: 1;
+}
+
+.subdestaque {
+  font-size: 28px;
+  margin-top: 5px;
+}
+
+/* MEIO */
+.meio {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.bloco {
+  width: 48%;
+}
+
+.bloco h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.bloco p {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.vantagens {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* RODAPÉ */
+.rodape {
+  background: rgba(30,127,67,0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contato {
+  font-size: 18px;
+}
+
+.site {
+  font-size: 16px;
+}
+
+.logo {
+  height: 45px;
+}
+</style>
+</head>
+
+<body>
+  <div class="flyer">
+
+    <!-- TOPO -->
+    <div class="topo">
+      <h1>ECONOMIZE AGORA</h1>
+      <div class="destaque">20%</div>
+      <div class="subdestaque">DE DESCONTO NA SUA CONTA DE ENERGIA</div>
+    </div>
+
+    <!-- MEIO -->
+    <div class="meio">
+      <div class="bloco">
+        <h2>Aluguel de Placas Solares</h2>
+        <p>
+          Energia limpa, sustentável e sem investimento inicial.
+          Mais economia todo mês com a PAZ Solar.
+        </p>
+      </div>
+
+      <div class="bloco vantagens">
+        ✔ Protocolo eficaz<br>
+        ✔ Atendemos todo o RN<br>
+        ✔ Contrato de 1 ano
+      </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <div class="rodape">
+      <div class="contato">
+        📞 (84) 99671-0787
+      </div>
+
+      <div class="site">
+        www.pazsolar.com.br
+      </div>
+
+      <!-- LOGO -->
+      <img src="img/logo-pazsolar.png" alt="PAZ Solar" class="logo">
+    </div>
+
+  </div>
+</body>
+</html>
