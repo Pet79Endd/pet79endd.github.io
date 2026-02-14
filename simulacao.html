@@ -120,6 +120,54 @@ button {
   font-weight: bold;
   color: var(--error);
 }
+
+/* ===================== */
+/* 📱 AJUSTES MOBILE */
+/* ===================== */
+@media (max-width: 768px) {
+
+  nav {
+    top: 15px;
+    right: 15px;
+  }
+
+  nav a {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    height: 35vh;
+    background-size: cover;
+  }
+
+  .section {
+    padding: 50px 6%;
+  }
+
+  .section h2 {
+    font-size: 2rem;
+    margin-bottom: 35px;
+  }
+
+  input, select {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 16px;
+    font-size: 1.1rem;
+  }
+
+  #resultado {
+    font-size: 1.5rem;
+  }
+
+  .lgpd {
+    font-size: 0.85rem;
+  }
+}
 </style>
 </head>
 
@@ -138,7 +186,6 @@ button {
   <h2>Simulação da sua conta!</h2>
 
   <form id="formSimulacao">
-    <input type="text" id="nome" placeholder="Nome">
     <input type="tel" id="telefone" placeholder="Telefone de contato">
     <input type="number" id="consumo" placeholder="Consumo médio em kWh (12 meses)">
     <input type="number" step="0.01" id="taxa" placeholder="Taxa de Iluminação Pública (R$)">
@@ -171,7 +218,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb2KXOJ-hnzSvpiJmXQ
 
 function processarDados() {
   const campos = [
-    nome, telefone, consumo, taxa, municipio, fase
+    telefone, consumo, taxa, municipio, fase
   ];
 
   let erro = false;
@@ -224,7 +271,6 @@ function processarDados() {
     method: "POST",
     body: JSON.stringify({
       id,
-      nome: nome.value,
       telefone: telefone.value,
       consumo: consumoVal,
       taxa: taxaVal,
@@ -238,7 +284,6 @@ function processarDados() {
   const mensagem = `
 Olá! Acabei de fazer uma simulação na Paz Solar 😊
 
-Nome: ${nome.value}
 Telefone: ${telefone.value}
 Município: ${municipio.value}
 Consumo médio: ${consumoVal} kWh
