@@ -299,16 +299,22 @@ a.cta-btn:hover {
   color: var(--text-light);
   padding: 100px 10%;
   display: flex;
-  gap: 70px;
+  justify-content: space-between; /* separa texto à esquerda e ícones à direita */
   align-items: center;
 }
 
 .section-7 p {
   font-size: 1.5rem;
-  line-height: 1.6;
-  margin-bottom: 18px;
+  line-height: 1.2;      /* diminui espaçamento entre linhas */
+  margin-bottom: 10px;  /* reduz espaço entre parágrafos */
+  text-align: left;     /* garante alinhamento à esquerda */
 }
-  
+
+.social-icons {
+  display: flex;
+  align-items: center;
+}
+
 .social-icons img {
   width: 44px;
   margin-left: 20px;
