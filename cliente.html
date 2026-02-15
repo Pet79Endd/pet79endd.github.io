@@ -68,6 +68,28 @@ h1 {
   margin-bottom: 40px;
 }
 
+.whatsapp-box {
+  background: #00cfd1; /* ciano */
+  color: #003333;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.whatsapp-box a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #003333;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.whatsapp-box a:hover {
+  text-decoration: underline;
+}
+  
 /* SEÇÕES */
 fieldset {
   border: 2px solid #eee;
@@ -186,9 +208,12 @@ Falta pouco para você começar a utilizar energia limpa enquanto economiza até
 Preencha o formulário abaixo com atenção para fazer o seu cadastro e finalmente ser um cliente Paz Solar!
 Fique atento às respostas, pois todas elas são imprescindíveis para o cadastro correto.<br><br>
 
-<strong>*Se tiver qualquer dúvida no preenchimento, contate a nossa equipe por ligação ou pelo WhatsApp no número
-(84) 99671-0787. Estamos prontos para te atender!</strong>
-</p>
+<div class="whatsapp-box">
+  Se tiver qualquer dúvida no preenchimento, fale com nossa equipe pelo WhatsApp:<br>
+  <a href="https://wa.me/5584996710787" target="_blank">
+    📲 (84) 99671-0787
+  </a>
+</div>
 
 <form id="formCliente">
 
@@ -431,15 +456,24 @@ document.getElementById("cep").addEventListener("blur", function () {
 });
 
 /* =====================
-   ENVIO DO CADASTRO
+   ENVIO DO FORMULÁRIO
 ===================== */
-<form id="formCliente" onsubmit="event.preventDefault(); enviarCadastro();">
+document.getElementById("formCliente").addEventListener("submit", function (e) {
+  e.preventDefault();
+  enviarCadastro();
+});
 
+function enviarCadastro() {
 
-  const campos = [nome, cpf, rg, orgao, uf, email, telefone, cep, endereco, numero, complemento,
-     bairro, municipio, estado, tipoImovel, usoImovel, codigoInstalacao, codigoCliente,
-    consumoMedioAnual, tip, debitosVencidos, gov, dataCobranca, formaCobranca
-                 ];
+  const campos = [
+    nome, cpf, rg, orgao, uf, email, telefone,
+    cep, endereco, numero, complemento,
+    bairro, municipio, estado,
+    tipoImovel, usoImovel,
+    codigoInstalacao, codigoCliente,
+    consumoMedioAnual, tip,
+    debitosVencidos, gov, dataCobranca, formaCobranca
+  ];
 
   let erro = false;
 
@@ -454,11 +488,9 @@ document.getElementById("cep").addEventListener("blur", function () {
   if (!lgpd.checked) erro = true;
 
   if (erro) {
-    document.getElementById("error-msg").style.display = "block";
+    alert("Por favor, preencha todos os campos obrigatórios.");
     return;
   }
-
-  document.getElementById("error-msg").style.display = "none";
 
   /* ID ÚNICO */
   const agora = new Date();
@@ -497,6 +529,7 @@ document.getElementById("cep").addEventListener("blur", function () {
       consumoMedioAnual: consumoMedioAnual.value,
       tip: tip.value,
       debitosVencidos: debitosVencidos.value,
+      gov: gov.value,
       dataCobranca: dataCobranca.value,
       formaCobranca: formaCobranca.value
     })
