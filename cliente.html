@@ -1,11 +1,321 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Seja um cliente | Paz Solar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha Cadastral | Paz Solar</title>
+
+<style>
+:root {
+  --blue-dark: rgb(20,100,130);
+  --error: #d32f2f;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+}
+
+/* CONTAINER */
+.section {
+  padding: 60px 10%;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* TÍTULOS */
+h1 {
+  text-align: center;
+  font-size: 2.6rem;
+  color: var(--blue-dark);
+  margin-bottom: 30px;
+}
+
+.intro {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+/* SEÇÕES */
+fieldset {
+  border: 2px solid #eee;
+  padding: 30px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: var(--blue-dark);
+  padding: 0 10px;
+}
+
+/* CAMPOS */
+label {
+  display: block;
+  margin-top: 18px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 6px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+}
+
+input.error, select.error {
+  border-color: var(--error);
+  background: #ffecec;
+}
+
+/* LGPD */
+.lgpd {
+  margin-top: 30px;
+  font-size: 0.95rem;
+}
+
+.lgpd input {
+  width: auto;
+  margin-right: 6px;
+}
+
+/* BOTÃO */
+button {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: var(--blue-dark);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* MENSAGENS */
+#error-msg {
+  display: none;
+  color: var(--error);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#sucesso {
+  display: none;
+  margin-top: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--blue-dark);
+  text-align: center;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 6%;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}
+</style>
 </head>
+
 <body>
-  <h1>Seja um cliente</h1>
-  <p>Conteúdo em construção.</p>
+
+<section class="section">
+<div class="container">
+
+<h1>Ficha Cadastral – PAZ Solar!</h1>
+
+<p class="intro">
+Falta pouco para você começar a utilizar energia limpa enquanto economiza até 20% na sua conta de energia!<br><br>
+
+Preencha o formulário abaixo com atenção para fazer o seu cadastro e finalmente ser um cliente Paz Solar!
+Fique atento às respostas, pois todas elas são imprescindíveis para o cadastro correto.<br><br>
+
+<strong>*Se tiver qualquer dúvida no preenchimento, contate a nossa equipe por ligação ou pelo WhatsApp no número
+(84) 99671-0787. Estamos prontos para te atender!</strong>
+</p>
+
+<form id="formCliente">
+
+<!-- SEÇÃO 1 -->
+<fieldset>
+<legend>Dados Pessoais</legend>
+
+<label>Nome e sobrenome</label>
+<input type="text" required>
+
+<label>CPF</label>
+<input type="text" placeholder="000.000.000-00">
+
+<label>RG</label>
+<input type="text">
+
+<label>Órgão expedidor</label>
+<input type="text">
+
+<label>UF</label>
+<input type="text" maxlength="2">
+
+<label>E-mail</label>
+<input type="email">
+
+<label>Número do telefone</label>
+<input type="text" placeholder="+55 (00) 0 0000-0000">
+
+</fieldset>
+
+<!-- SEÇÃO 2 -->
+<fieldset>
+<legend>Dados da Unidade Consumidora</legend>
+
+<label>CEP</label>
+<input type="text" id="cep" placeholder="00.000-000">
+
+<label>Endereço</label>
+<input type="text" id="endereco">
+
+<label>Número</label>
+<input type="text">
+
+<label>Complemento</label>
+<input type="text">
+
+<label>Bairro</label>
+<input type="text" id="bairro">
+
+<label>Município</label>
+<input type="text" id="municipio">
+
+<label>Estado (UF)</label>
+<input type="text" id="estado" maxlength="2">
+
+<label>Tipo de imóvel</label>
+<select>
+  <option value="">Selecione</option>
+  <option>Urbano</option>
+  <option>Rural</option>
+</select>
+
+<label>Uso do imóvel</label>
+<select>
+  <option value="">Selecione</option>
+  <option>Residencial</option>
+  <option>Comercial</option>
+</select>
+
+</fieldset>
+
+<!-- SEÇÃO 3 -->
+<fieldset>
+<legend>Dados da conta da COSERN</legend>
+
+<label>Código da Instalação</label>
+<input type="number">
+
+<label>Código do Cliente</label>
+<input type="number">
+
+<label>Consumo médio 12 meses (kWh)</label>
+<input type="number">
+
+<label>Taxa de Iluminação Pública (R$)</label>
+<input type="number" step="0.01">
+
+<label>Possui débitos vencidos?</label>
+<select>
+  <option value="">Selecione</option>
+  <option>SIM</option>
+  <option>NÃO</option>
+</select>
+
+</fieldset>
+
+<!-- SEÇÃO 4 -->
+<fieldset>
+<legend>Sobre o Contrato</legend>
+
+<label>Data de preferência para cobrança</label>
+<select>
+  <option value="">Selecione</option>
+  <option>1º dia útil</option>
+  <option>5º dia útil</option>
+  <option>15º dia útil</option>
+</select>
+
+<label>Forma de cobrança</label>
+<select>
+  <option value="">Selecione</option>
+  <option>PIX</option>
+  <option>Boleto</option>
+  <option>Cartão de Crédito</option>
+</select>
+
+</fieldset>
+
+<!-- LGPD -->
+<div class="lgpd">
+<label>
+<input type="checkbox" required>
+Li e concordo com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>.
+</label>
+</div>
+
+<button type="submit">Enviar cadastro</button>
+
+<div id="error-msg">Preencha todos os campos obrigatórios.</div>
+<div id="sucesso">
+Obrigado pelo seu cadastro!<br>
+Em breve entraremos em contato para seguir com a contratação 😊
+</div>
+
+</form>
+
+</div>
+</section>
+
+<script>
+// VIA CEP
+document.getElementById("cep").addEventListener("blur", function(){
+  const cep = this.value.replace(/\D/g, "");
+  if (cep.length !== 8) return;
+
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(r => r.json())
+    .then(d => {
+      if (!d.erro) {
+        endereco.value = d.logradouro;
+        bairro.value = d.bairro;
+        municipio.value = d.localidade;
+        estado.value = d.uf;
+      }
+    });
+});
+
+// SIMULA ENVIO
+document.getElementById("formCliente").addEventListener("submit", function(e){
+  e.preventDefault();
+  this.style.display = "none";
+  document.getElementById("sucesso").style.display = "block";
+});
+</script>
+
 </body>
 </html>
