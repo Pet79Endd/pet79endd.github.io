@@ -197,25 +197,33 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <legend>Dados Pessoais</legend>
 
 <label>Nome e sobrenome</label>
+<input id="nome" placeholder="Nome e sobrenome">
 <input type="text" required>
 
 <label>CPF</label>
+<input id="cpf" placeholder="CPF">
 <input type="text" placeholder="000.000.000-00">
 
 <label>RG</label>
+<input id="rg" placeholder="RG">
 <input type="text">
 
 <label>Órgão expedidor</label>
+<input id="orgao" placeholder="Órgão expedidor">
 <input type="text">
 
 <label>UF</label>
+<input id="uf" placeholder="UF">
 <input type="text" maxlength="2">
 
 <label>E-mail</label>
+<input id="email" placeholder="E-mail">
 <input type="email">
 
 <label>Número do telefone</label>
+<input id="telefone" placeholder="Número do telefone">
 <input type="text" placeholder="+55 (00) 0 0000-0000">
+
 </fieldset>
 
 <!-- UNIDADE -->
@@ -223,27 +231,35 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <legend>Dados da Unidade Consumidora</legend>
 
 <label>CEP</label>
+<input id="cep" placeholder="CEP">
 <input type="text" id="cep" placeholder="00.000-000">
 
 <label>Endereço</label>
+<input id="endereco" placeholder="Endereço">
 <input type="text" id="endereco">
 
 <label>Número</label>
+<input id="numero" placeholder="Número">
 <input type="text">
 
 <label>Complemento</label>
+<input id="complemento" placeholder="Complemento">
 <input type="text">
 
 <label>Bairro</label>
+<input id="bairro" placeholder="Bairro">
 <input type="text" id="bairro">
 
 <label>Município</label>
+<input id="municipio" placeholder="Município">
 <input type="text" id="municipio">
 
 <label>Estado (UF)</label>
+<input id="estado" placeholder="Estado (UF)">
 <input type="text" id="estado" maxlength="2">
 
 <label>Tipo de imóvel</label>
+<input id="tipoImovel" placeholder="Tipo de imóvel">
 <select>
   <option value="">Selecione</option>
   <option>Urbano</option>
@@ -251,6 +267,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 </select>
 
 <label>Uso do imóvel</label>
+<input id="usoImovel" placeholder="Uso de imóvel">
 <select>
   <option value="">Selecione</option>
   <option>Residencial</option>
@@ -263,18 +280,23 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <legend>Dados da conta da COSERN</legend>
 
 <label>Código da Instalação</label>
+<input id="codigoInstalacao" placeholder="Código da Instalação">
 <input type="number">
 
 <label>Código do Cliente</label>
+<input id="codigoCliente" placeholder="Código do Cliente">
 <input type="number">
 
 <label>Consumo médio 12 meses (kWh)</label>
+<input id="consumoMedioAnual" placeholder="Consumo médio 12 meses (kWh)">
 <input type="number">
 
 <label>Taxa de Iluminação Pública (R$)</label>
+<input id="tip" placeholder="Taxa de Iluminação Pública (R$)">
 <input type="number" step="0.01">
 
 <label>Possui débitos vencidos?</label>
+<input id="debitosVencidos" placeholder="Possui débitos vencidos?">
 <select>
   <option value="">Selecione</option>
   <option>SIM</option>
@@ -287,6 +309,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <legend>Sobre o Contrato</legend>
 
 <label>Possui conta ouro ou prata no site www.gov.br?</label>
+<input id="gov" placeholder="Possui conta ouro ou prata no site www.gov.br?">
 <select>
   <option value="">Selecione</option>
   <option>SIM</option>
@@ -294,6 +317,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 </select>
   
 <label>Data de preferência para cobrança</label>
+<input id="dataCobranca" placeholder="Data de preferência para cobrança">
 <select>
   <option value="">Selecione</option>
   <option>1º dia útil</option>
@@ -302,6 +326,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 </select>
 
 <label>Forma de cobrança</label>
+<input id="formaCobranca" placeholder="Forma de cobrança">
 <select>
   <option value="">Selecione</option>
   <option>PIX</option>
@@ -331,7 +356,7 @@ Em breve entraremos em contato para seguir com a contratação 😊
 </section>
 
 <script>
-const SCRIPT_URL = "COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIIyvyAlOIUMV9z0UupWokfcAjzsLjiowlifnp_EBThtEYlLGKTWEZ6EftfAFozS38/exec";
 
 /* =====================
    VIA CEP – AUTO PREENCHIMENTO
@@ -361,10 +386,9 @@ document.getElementById("cep").addEventListener("blur", function () {
 ===================== */
 function enviarCadastro() {
 
-  const campos = [
-    nome, cpf, email, telefone,
-    cep, endereco, bairro, municipio, estado, forma
-  ];
+  const campos = [nome, cpf, rg, orgao, uf, email, telefone, cep, endereco, numero, complemento,
+     bairro, municipio, estado, tipoImovel, usoImovel, codigoInstalacao, codigoCliente,
+    consumoMedioAnual, tip, debitosVencidos, gov, dataCobrança, formaCobranca];
 
   let erro = false;
 
@@ -403,14 +427,27 @@ function enviarCadastro() {
       id,
       nome: nome.value,
       cpf: cpf.value,
+      rg: rg.value,
+      orgao: orgao.value,
+      uf: uf.value,
       email: email.value,
       telefone: telefone.value,
       cep: cep.value,
       endereco: endereco.value,
+      numero: numero.value,
+      complemento: complemento.value,
       bairro: bairro.value,
       municipio: municipio.value,
       estado: estado.value,
-      formaCobranca: forma.value
+      tipoImovel: tipoImovel.value,
+      usoImovel: usoImovel.value,
+      codigoInstalacao: codigoInstalacao.value,
+      codigoCliente: codigoCliente.value,
+      consumoMedioAnual: consumoMedioAnual.value,
+      tip: tip.value,
+      debitosVencidos: debitosVencidos.value,
+      dataCobranca: dataCobranca.value,
+      formaCobranca: formaCobranca.value
     })
   });
 
