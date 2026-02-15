@@ -306,27 +306,18 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 >
 
 <label>Tipo de imóvel</label>
-<input
-  type="text"
-  id="tipoImovel"
-  required
-<select>
+<select id="tipoImovel" required>
   <option value="">Selecione</option>
-  <option>Urbano</option>
-  <option>Rural</option>
+  <option value="Urbano">Urbano</option>
+  <option value="Rural">Rural</option>
 </select>
-
+  
 <label>Uso do imóvel</label>
-<input
-  type="text"
-  id="usoImovel"
-  required
-<select>
+<select id="usoImovel" required>
   <option value="">Selecione</option>
-  <option>Residencial</option>
-  <option>Comercial</option>
+  <option value="Residencial">Residencial</option>
+  <option value="Comercial">Comercial</option>
 </select>
-</fieldset>
 
 <!-- COSERN -->
 <fieldset>
@@ -359,8 +350,8 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <label>Possui débitos vencidos?</label>
 <select id="debitosVencidos" required>
   <option value="">Selecione</option>
-  <option>SIM</option>
-  <option>NÃO</option>
+  <option value="SIM">SIM</option>
+  <option value="NÃO">NÃO</option>
 </select>
   
 </fieldset>
