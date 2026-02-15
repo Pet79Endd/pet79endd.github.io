@@ -168,7 +168,7 @@ button:hover {
 
 <p class="intro">
 Falta pouco para você começar a utilizar energia limpa enquanto economiza até 20% na sua conta de energia.<br><br>
-Preencha o formulário abaixo com atenção.
+Preencha o formulário abaixo com atenção para fazer o seu cadastro e finalmente ser um cliente Paz Solar!.
 </p>
 
 <div class="whatsapp-box">
@@ -204,8 +204,7 @@ Dúvidas no preenchimento?<br>
 </fieldset>
 
 <fieldset>
-<legend>Unidade Consumidora</legend>
-
+<legend>Dados da Unidade Consumidora</legend>
 <label>CEP</label>
 <input type="text" id="cep" required>
 
@@ -243,8 +242,7 @@ Dúvidas no preenchimento?<br>
 </fieldset>
 
 <fieldset>
-<legend>Conta de Energia</legend>
-
+<legend>Dados da conta de energia da COSERN</legend>
 <label>Código da Instalação</label>
 <input type="number" id="codigoInstalacao" required>
 
@@ -265,6 +263,32 @@ Dúvidas no preenchimento?<br>
 </select>
 </fieldset>
 
+</fieldset>
+<legend>Dados do contrato</legend>
+<label>Possui conta ouro ou prata no site www.gov.br?</label>
+<select id="gov" required>
+  <option value="">Selecione</option>
+  <option>SIM</option>
+  <option>NÃO</option>
+</select>
+
+<label>Data de preferência para cobrança</label>
+<select id="dataCobranca" required>
+  <option value="">Selecione</option>
+  <option>1º dia útil</option>
+  <option>5º dia útil</option>
+  <option>15º dia útil</option>
+</select>
+
+<label>Forma de cobrança</label>
+<select id="formaCobranca" required>
+  <option value="">Selecione</option>
+  <option>PIX</option>
+  <option>Boleto</option>
+  <option>Cartão de Crédito</option>
+</select>
+</fieldset>
+  
 <div class="lgpd">
 <label>
 <input type="checkbox" id="lgpd" required>
@@ -283,6 +307,68 @@ Em breve entraremos em contato 😊
 
 </div>
 </section>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb2KXOJ-hnzSvpiJmXQnGqYZY8ulOLS6CcGFbyO5v8ftsDc4WLbZIbXmhbbR7w0mcf/exec";
+
+const campos = [
+  "nome","cpf","rg","orgao","uf","email","telefone","cep",
+  "endereco","numero","bairro","municipio","estado",
+  "codigoInstalacao","codigoCliente","consumoMedioAnual","tip"
+  "gov", "dataCobranca", "formaCobranca"
+].map(id => document.getElementById(id));
+
+document.getElementById("cep").addEventListener("blur", function () {
+  const cep = this.value.replace(/\D/g, "");
+  if (cep.length !== 8) return;
+
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(res => res.json())
+    .then(dados => {
+      if (!dados.erro) {
+        endereco.value = dados.logradouro || "";
+        bairro.value = dados.bairro || "";
+        municipio.value = dados.localidade || "";
+        estado.value = dados.uf || "";
+      }
+    });
+});
+
+document.getElementById("formCliente").addEventListener("submit", e => {
+  e.preventDefault();
+
+  let erro = false;
+  campos.forEach(c => {
+    c.classList.remove("error");
+    if (!c.value) {
+      c.classList.add("error");
+      erro = true;
+    }
+  });
+
+  if (!lgpd.checked || erro) {
+    alert("Preencha todos os campos obrigatórios.");
+    return;
+  }
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({ nome: nome.value })
+  });
+
+  const msg = `Cadastro PAZ SOLAR 🌞
+Nome: ${nome.value}
+Telefone: ${telefone.value}
+CEP: ${cep.value}
+TIP: ${tip.value}
+Consumo: ${consumo.value}';
+
+  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg));
+
+  formCliente.style.display = "none";
+  sucesso.style.display = "block";
+});
+</script>
 
 </body>
 </html>
