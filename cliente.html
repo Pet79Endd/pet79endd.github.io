@@ -286,6 +286,13 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <fieldset>
 <legend>Sobre o Contrato</legend>
 
+<label>Possui conta ouro ou prata no site www.gov.br?</label>
+<select>
+  <option value="">Selecione</option>
+  <option>SIM</option>
+  <option>NÃO</option>
+</select>
+  
 <label>Data de preferência para cobrança</label>
 <select>
   <option value="">Selecione</option>
@@ -324,30 +331,112 @@ Em breve entraremos em contato para seguir com a contratação 😊
 </section>
 
 <script>
-// VIA CEP
-document.getElementById("cep").addEventListener("blur", function(){
-  const cep = this.value.replace(/\D/g, "");
-  if (cep.length !== 8) return;
+const SCRIPT_URL = "COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT";
 
-  fetch(`https://viacep.com.br/ws/${cep}/json/`)
-    .then(r => r.json())
-    .then(d => {
-      if (!d.erro) {
-        endereco.value = d.logradouro;
-        bairro.value = d.bairro;
-        municipio.value = d.localidade;
-        estado.value = d.uf;
+/* =====================
+   VIA CEP – AUTO PREENCHIMENTO
+===================== */
+document.getElementById("cep").addEventListener("blur", function () {
+  const cepLimpo = this.value.replace(/\D/g, "");
+
+  if (cepLimpo.length !== 8) return;
+
+  fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+    .then(res => res.json())
+    .then(dados => {
+      if (!dados.erro) {
+        endereco.value = dados.logradouro || "";
+        bairro.value = dados.bairro || "";
+        municipio.value = dados.localidade || "";
+        estado.value = dados.uf || "";
       }
+    })
+    .catch(() => {
+      console.warn("Erro ao buscar CEP");
     });
 });
 
-// SIMULA ENVIO
-document.getElementById("formCliente").addEventListener("submit", function(e){
-  e.preventDefault();
-  this.style.display = "none";
+/* =====================
+   ENVIO DO CADASTRO
+===================== */
+function enviarCadastro() {
+
+  const campos = [
+    nome, cpf, email, telefone,
+    cep, endereco, bairro, municipio, estado, forma
+  ];
+
+  let erro = false;
+
+  campos.forEach(campo => {
+    campo.classList.remove("error");
+    if (!campo.value) {
+      campo.classList.add("error");
+      erro = true;
+    }
+  });
+
+  if (!lgpd.checked) erro = true;
+
+  if (erro) {
+    document.getElementById("error-msg").style.display = "block";
+    return;
+  }
+
+  document.getElementById("error-msg").style.display = "none";
+
+  /* ID ÚNICO */
+  const agora = new Date();
+  const id =
+    agora.getFullYear().toString() +
+    String(agora.getMonth() + 1).padStart(2, "0") +
+    String(agora.getDate()).padStart(2, "0") +
+    String(agora.getHours()).padStart(2, "0") +
+    String(agora.getMinutes()).padStart(2, "0") +
+    String(agora.getSeconds()).padStart(2, "0");
+
+  /* ENVIO PARA GOOGLE SHEETS */
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      tipo: "cadastro",
+      id,
+      nome: nome.value,
+      cpf: cpf.value,
+      email: email.value,
+      telefone: telefone.value,
+      cep: cep.value,
+      endereco: endereco.value,
+      bairro: bairro.value,
+      municipio: municipio.value,
+      estado: estado.value,
+      formaCobranca: forma.value
+    })
+  });
+
+  /* WHATSAPP */
+  const mensagem = `
+Cadastro PAZ SOLAR 🌞
+
+Nome: ${nome.value}
+CPF: ${cpf.value}
+Telefone: ${telefone.value}
+Endereço: ${endereco.value}, ${bairro.value}
+Município: ${municipio.value} - ${estado.value}
+Forma de cobrança: ${forma.value}
+`;
+
+  const urlWhatsApp =
+    "https://wa.me/5584996710787?text=" + encodeURIComponent(mensagem);
+
+  window.open(urlWhatsApp, "_blank");
+
+  /* FEEDBACK VISUAL */
+  document.getElementById("formCliente").style.display = "none";
   document.getElementById("sucesso").style.display = "block";
-});
+}
 </script>
+
 
 </body>
 </html>
