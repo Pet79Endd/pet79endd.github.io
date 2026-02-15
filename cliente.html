@@ -248,7 +248,6 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
   placeholder="+55 (00) 0 0000-0000"
   required
 >
-  
 </fieldset>
 
 <!-- UNIDADE -->
@@ -333,7 +332,6 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <fieldset>
 <legend>Dados da conta da COSERN</legend>
 
-
 <label>Código da Instalação</label>
 <input
   type="number"
@@ -359,15 +357,12 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
   required
 
 <label>Possui débitos vencidos?</label>
-<input
-  type="text"
-  id="debitosVencidos"
-  required
-<select>
+<select id="debitosVencidos" required>
   <option value="">Selecione</option>
   <option>SIM</option>
   <option>NÃO</option>
 </select>
+  
 </fieldset>
 
 <!-- CONTRATO -->
@@ -375,22 +370,14 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <legend>Sobre o Contrato</legend>
 
 <label>Possui conta ouro ou prata no site www.gov.br?</label>
-<input
-  type="text"
-  id="gov"
-  required
-<select>
+<select id="gov" required>
   <option value="">Selecione</option>
   <option>SIM</option>
   <option>NÃO</option>
 </select>
   
 <label>Data de preferência para cobrança</label>
-<input
-  type="text"
-  id="dataCobranca"
-  required
-<select>
+<select id="dataCobranca" required>
   <option value="">Selecione</option>
   <option>1º dia útil</option>
   <option>5º dia útil</option>
@@ -398,11 +385,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 </select>
 
 <label>Forma de cobrança</label>
-<input
-  type="text"
-  id="formaCobranca"
-  required
-<select>
+<select id="formaCobranca" required>
   <option value="">Selecione</option>
   <option>PIX</option>
   <option>Boleto</option>
@@ -413,7 +396,7 @@ Fique atento às respostas, pois todas elas são imprescindíveis para o cadastr
 <!-- LGPD -->
 <div class="lgpd">
 <label>
-<input type="checkbox" required>
+<input type="checkbox" id="lgpd" required>
 Li e concordo com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>.
 </label>
 </div>
@@ -459,11 +442,13 @@ document.getElementById("cep").addEventListener("blur", function () {
 /* =====================
    ENVIO DO CADASTRO
 ===================== */
-function enviarCadastro() {
+<form id="formCliente" onsubmit="event.preventDefault(); enviarCadastro();">
+
 
   const campos = [nome, cpf, rg, orgao, uf, email, telefone, cep, endereco, numero, complemento,
      bairro, municipio, estado, tipoImovel, usoImovel, codigoInstalacao, codigoCliente,
-    consumoMedioAnual, tip, debitosVencidos, gov, dataCobrança, formaCobranca];
+    consumoMedioAnual, tip, debitosVencidos, gov, dataCobranca, formaCobranca
+                 ];
 
   let erro = false;
 
