@@ -214,7 +214,7 @@ button {
 
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1vK1YicmR-F0HjzqY9XAVOiqC8pHz_QSBVQGUb1a3H8NYtr_HFP8XOCWO3oI6gTUi/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz81FUcpc1wFD77BmIG9WwijNChluJECsXitmWTx-7DjH0sA6Md2jprsV7Z0k-UmEcz/exec";
 
 function processarDados() {
   const campos = [
@@ -269,8 +269,10 @@ function processarDados() {
   // ENVIO PARA GOOGLE SHEETS
   fetch(SCRIPT_URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
-      id,
       telefone: telefone.value,
       consumo: consumoVal,
       taxa: taxaVal,
@@ -278,7 +280,7 @@ function processarDados() {
       fase: fase.value,
       resultado: resultadoFormatado
     })
-  });
+  })
 
   // WHATSAPP
   const mensagem = `
