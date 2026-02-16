@@ -104,12 +104,34 @@ form.addEventListener("submit", e => {
   if (!document.getElementById("lgpd").checked) { alert("Aceite a Política de Privacidade."); return; }
   if (erro) { alert("Preencha os campos obrigatórios."); return; }
 
-  btn.disabled = true; btn.innerText = "Enviando...";
-  fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: dados.toString() })
-    .then(() => {
-      const msg = `Cadastro PAZ SOLAR 🌞\nNome: ${document.getElementById("nome").value}\nTelefone: ${document.getElementById("telefone").value}`;
-      window.location.href = "https://wa.me/5584996710787?text=" + encodeURIComponent(msg);
-    });
+  // 1️⃣ ABRE O WHATSAPP IMEDIATAMENTE (Ação direta evita bloqueio de pop-up)
+  const msg = `Cadastro PAZ SOLAR 🌞\n\n` +
+              `Nome: ${document.getElementById("nome").value}\n` +
+              `CPF: ${document.getElementById("cpf").value}\n` +
+              `E-mail: ${document.getElementById("email").value}\n` +
+              `Telefone: ${document.getElementById("telefone").value}\n` +
+              `CEP: ${document.getElementById("cep").value}\n` +
+              `Tipo de imóvel: ${document.getElementById("tipoImovel").value}\n` +
+              `Uso do imóvel: ${document.getElementById("usoImovel").value}\n` +
+              `Consumo médio: ${document.getElementById("consumoMedioAnual").value} kWh\n` +
+              `TIP: R$ ${document.getElementById("tip").value}`;
+  
+  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
+
+  // 2️⃣ ENVIA PARA O GOOGLE SHEETS EM SEGUNDO PLANO
+  btn.disabled = true; 
+  btn.innerText = "Enviando...";
+  
+  fetch(SCRIPT_URL, { 
+    method: "POST", 
+    mode: "no-cors", 
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: dados.toString() 
+  })
+  .then(() => {
+    form.style.display = "none";
+    document.getElementById("sucesso").style.display = "block";
+  });
 });
 </script>
 </body>
