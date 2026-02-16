@@ -75,7 +75,7 @@ function processarDados() {
 
   const consumoVal = parseFloat(document.getElementById("consumo").value);
   const taxaVal = parseFloat(document.getElementById("taxa").value);
-  const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.53) + (consumoVal * 0.2115) + taxaVal;
+  const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.67) + (consumoVal * 0.12) + (consumoVal * 0.162) + taxaVal;
   const resFormatado = resultadoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   document.getElementById("resultado").innerHTML = `Seu novo custo mensal simulado é de R$ ${resFormatado}`;
