@@ -1,0 +1,62 @@
+import argparse
+
+def calculate_energy_bill(phase_type: str, consumption_kwh: float) -> dict:
+    """
+    Calcula o custo estimado da conta de energia elétrica com base no tipo de ligação
+    (monofásica ou trifásica) e no consumo em kWh, considerando o custo de disponibilidade.
+
+    Args:
+        phase_type (str): Tipo de ligação ('monofasico' ou 'trifasico').
+        consumption_kwh (float): Consumo mensal em kWh.
+
+    Returns:
+        dict: Um dicionário contendo o consumo faturado e o custo estimado.
+    """
+    tariff_per_kwh = 0.74424  # Tarifa da Neoenergia Cosern (RN) sem impostos
+    faturado_kwh = 0.0
+    estimated_cost = 0.0
+
+    if phase_type.lower() == 'monofasico':
+        min_consumption_kwh = 30
+    elif phase_type.lower() == 'trifasico':
+        min_consumption_kwh = 100
+    else:
+        raise ValueError("Tipo de fase inválido. Use 'monofasico' ou 'trifasico'.")
+
+    if consumption_kwh < min_consumption_kwh:
+        faturado_kwh = min_consumption_kwh
+    else:
+        faturado_kwh = consumption_kwh
+
+    estimated_cost = faturado_kwh * tariff_per_kwh
+
+    return {"faturado_kwh": faturado_kwh, "estimated_cost": round(estimated_cost, 2)}
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Calcula o custo estimado da conta de energia elétrica."
+    )
+    parser.add_argument(
+        "--phase_type",
+        type=str,
+        required=True,
+        choices=['monofasico', 'trifasico'],
+        help="Tipo de ligação: 'monofasico' ou 'trifasico'."
+    )
+    parser.add_argument(
+        "--consumption_kwh",
+        type=float,
+        required=True,
+        help="Consumo mensal em kWh."
+    )
+
+    args = parser.parse_args()
+
+    try:
+        result = calculate_energy_bill(args.phase_type, args.consumption_kwh)
+        print(f"Tipo de Ligação: {args.phase_type.capitalize()}")
+        print(f"Consumo Real: {args.consumption_kwh} kWh")
+        print(f"Consumo Faturado: {result['faturado_kwh']} kWh")
+        print(f"Custo Estimado (sem impostos): R$ {result['estimated_cost']:.2f}")
+    except ValueError as e:
+        print(f"Erro: {e}")
