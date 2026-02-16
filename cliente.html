@@ -127,13 +127,15 @@ select:focus {
 }
 
 .error {
-  border-color: red;
+  border-color: red !important;
+  background: #ffecec;
 }
 
 /* LGPD */
 .lgpd {
   font-size: 0.95rem;
   margin-top: 10px;
+  margin-bottom: 25px; /* Espaço antes do botão */
 }
 
 .lgpd a {
@@ -144,13 +146,16 @@ select:focus {
 
 .lgpd label {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center; /* Alinhamento vertical centralizado */
+  gap: 10px;
   cursor: pointer;
+  font-weight: normal; /* Texto da LGPD geralmente não é negrito total */
 }
   
 .lgpd input[type="checkbox"] {
-  margin-top: 2px;
+  width: auto; /* Impede que o checkbox ocupe 100% da largura */
+  margin-bottom: 0; /* Remove margem inferior padrão dos inputs */
+  cursor: pointer;
 }
 
 /* BOTÃO */
@@ -163,10 +168,16 @@ button {
   border-radius: 10px;
   cursor: pointer;
   width: 100%;
+  font-weight: bold;
 }
 
 button:hover {
   opacity: 0.9;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 /* SUCESSO */
@@ -176,6 +187,13 @@ button:hover {
   font-size: 1.3rem;
   color: green;
   text-align: center;
+}
+
+/* AJUSTES MOBILE */
+@media (max-width: 768px) {
+  .section { padding: 30px 5%; }
+  .container { padding: 30px 20px; }
+  h1 { font-size: 1.8rem; }
 }
 </style>
 </head>
@@ -290,7 +308,7 @@ Dúvidas no preenchimento?<br>
 </select>
 </fieldset>
 
-</fieldset>
+<fieldset>
 <legend>Dados do contrato</legend>
 <label>Possui conta ouro ou prata no site www.gov.br?</label>
 <select id="gov" required>
@@ -323,7 +341,7 @@ Li e concordo com a <a href="privacidade.html" target="_blank">Política de Priv
 </label>
 </div>
 
-<button type="submit">Enviar cadastro</button>
+<button type="submit" id="btnEnviar">Enviar cadastro</button>
 
 <div id="sucesso">
 Cadastro enviado com sucesso!<br>
@@ -336,14 +354,19 @@ Em breve entraremos em contato 😊
 </section>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb2KXOJ-hnzSvpiJmXQnGqYZY8ulOLS6CcGFbyO5v8ftsDc4WLbZIbXmhbbR7w0mcf/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
 
-const campos = [
+const form = document.getElementById("formCliente");
+const btn = document.getElementById("btnEnviar");
+const lgpd = document.getElementById("lgpd");
+
+// Lista de IDs para validação
+const idsCampos = [
   "nome","cpf","rg","orgao","uf","email","telefone","cep",
   "endereco","numero","bairro","municipio","estado",
-  "codigoInstalacao","codigoCliente","consumoMedioAnual","tip"
-  "gov", "dataCobranca", "formaCobranca"
-].map(id => document.getElementById(id));
+  "codigoInstalacao","codigoCliente","consumoMedioAnual","tip",
+  "gov", "dataCobranca", "formaCobranca", "tipoImovel", "usoImovel", "debitosVencidos"
+];
 
 document.getElementById("cep").addEventListener("blur", function () {
   const cep = this.value.replace(/\D/g, "");
@@ -353,48 +376,75 @@ document.getElementById("cep").addEventListener("blur", function () {
     .then(res => res.json())
     .then(dados => {
       if (!dados.erro) {
-        endereco.value = dados.logradouro || "";
-        bairro.value = dados.bairro || "";
-        municipio.value = dados.localidade || "";
-        estado.value = dados.uf || "";
+        document.getElementById("endereco").value = dados.logradouro || "";
+        document.getElementById("bairro").value = dados.bairro || "";
+        document.getElementById("municipio").value = dados.localidade || "";
+        document.getElementById("estado").value = dados.uf || "";
       }
     });
 });
 
-document.getElementById("formCliente").addEventListener("submit", e => {
+form.addEventListener("submit", e => {
   e.preventDefault();
 
   let erro = false;
-  campos.forEach(c => {
-    c.classList.remove("error");
-    if (!c.value) {
-      c.classList.add("error");
-      erro = true;
+  const dadosParaEnvio = new URLSearchParams();
+
+  idsCampos.forEach(id => {
+    const campo = document.getElementById(id);
+    if (campo) {
+      campo.classList.remove("error");
+      if (campo.hasAttribute("required") && !campo.value) {
+        campo.classList.add("error");
+        erro = true;
+      }
+      dadosParaEnvio.append(id, campo.value);
     }
   });
 
-  if (!lgpd.checked || erro) {
-    alert("Preencha todos os campos obrigatórios.");
+  if (!lgpd.checked) {
+    alert("Você precisa aceitar a Política de Privacidade.");
     return;
   }
 
+  if (erro) {
+    alert("Por favor, preencha todos os campos obrigatórios em destaque.");
+    return;
+  }
+
+  // Desabilita botão para evitar múltiplos envios
+  btn.disabled = true;
+  btn.innerText = "Enviando...";
+
+  // Envio para Google Sheets (Aba Cliente)
   fetch(SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify({ nome: nome.value })
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: dadosParaEnvio.toString()
+  })
+  .then(() => {
+    console.log("Dados enviados!");
+    enviarWhatsApp();
+    form.style.display = "none";
+    document.getElementById("sucesso").style.display = "block";
+  })
+  .catch(error => {
+    console.error("Erro:", error);
+    alert("Erro ao salvar dados, mas vamos prosseguir para o WhatsApp.");
+    enviarWhatsApp();
   });
-
-  const msg = `Cadastro PAZ SOLAR 🌞
-Nome: ${nome.value}
-Telefone: ${telefone.value}
-CEP: ${cep.value}
-TIP: ${tip.value}
-Consumo: ${consumo.value}';
-
-  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg));
-
-  formCliente.style.display = "none";
-  sucesso.style.display = "block";
 });
+
+function enviarWhatsApp() {
+  const nome = document.getElementById("nome").value;
+  const tel = document.getElementById("telefone").value;
+  const mun = document.getElementById("municipio").value;
+  
+  const msg = `Cadastro PAZ SOLAR 🌞\n\nNome: ${nome}\nTelefone: ${tel}\nMunicípio: ${mun}\n\nAcabei de enviar minha ficha cadastral pelo site e gostaria de confirmar o recebimento.`;
+  
+  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
+}
 </script>
 
 </body>
