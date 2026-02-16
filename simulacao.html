@@ -214,15 +214,17 @@ button {
  
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwL8ZQNTflUezN9acrpQmlzet_Wm_wBPS9XbNQXOqZfXDtrWBfpfaI96-n6S60K1RIG/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzX7VkzCjYHC6OzFMjQst5AmeMWwK7wL-zVHEquM3keXJV03WOSuZb4H2WR96JRf2jceQ/exec";
 
 function processarDados() {
 
   // 1️⃣ Validação
   // ----------------
-  const campos = [telefone, consumo, taxa, municipio, fase];
+  const campos = [
+    telefone, consumo, taxa, municipio, fase
+  ];
+  
   let erro = false;
-
   campos.forEach(campo => {
     campo.classList.remove("error");
     if (!campo.value || campo.value <= 0) {
@@ -231,12 +233,16 @@ function processarDados() {
     }
   });
 
-  if (erro || !lgpd.checked) {
-    document.getElementById("error-msg").style.display = "block";
-    return;
-  }
+  const errorMsg = document.getElementById("error-msg");
+  const resultadoDiv = document.getElementById("resultado");
+  
+ if (erro) {
+   errorMsg.style.display = "block";
+   resultadoDiv.style.display = "none";
+   return;
+ }
 
-    document.getElementById("error-msg").style.display = "none";
+  errorMsg.style.display = "none";
   
   // 2️⃣ Cálculo
   // ----------------
@@ -254,23 +260,32 @@ function processarDados() {
 
   // 3️⃣ Mostra resultado
   // ----------------
-  const resultadoDiv = document.getElementById("resultado");
-  resultadoDiv.innerHTML =
+   resultadoDiv.innerHTML =
     `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
   resultadoDiv.style.display = "block";
 
+/// ID no formato aaaammddhhmmss
+  const agora = new Date();
+  const id = agora.getFullYear().toString() +
+    String(agora.getMonth()+1).padStart(2,"0") +
+    String(agora.getDate()).padStart(2,"0") +
+    String(agora.getHours()).padStart(2,"0") +
+    String(agora.getMinutes()).padStart(2,"0") +
+    String(agora.getSeconds()).padStart(2,"0");
+  
   // ENVIO PARA GOOGLE SHEETS
-  const formData = new FormData();
-  formData.append("telefone", telefone.value);
-  formData.append("consumo", consumoVal);
-  formData.append("taxa", taxaVal);
-  formData.append("municipio", municipio.value);
-  formData.append("fase", fase.value);
-  formData.append("resultado", resultadoFormatado);
-
   fetch(SCRIPT_URL, {
     method: "POST",
-    body: formData
+    body: JSON.stringify({
+      id,
+      nome: nome.value,
+      telefone: telefone.value,
+      consumo: consumoVal,
+      taxa: taxaVal,
+      municipio: municipio.value,
+      fase: fase.value,
+      resultado: resultadoFormatado 
+    })
   });
 
   // WHATSAPP
