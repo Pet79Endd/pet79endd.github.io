@@ -90,11 +90,12 @@ button:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
-  
+
 /* LGPD */
 .lgpd {
   font-size: 0.95rem;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .lgpd a {
@@ -126,9 +127,7 @@ button:disabled {
   color: var(--error);
 }
 
-/* ===================== */
 /* 📱 AJUSTES MOBILE */
-/* ===================== */
 @media (max-width: 768px) {
   nav { top: 15px; right: 15px; }
   nav a { padding: 8px 14px; font-size: 0.9rem; }
@@ -186,7 +185,7 @@ button:disabled {
  
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEPDJFXn538EINZa8pjVc43ItSZGP44FwMWjrp_jG7b-OIj7bIm672IAZxe_GX-XPPtg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
 
 function processarDados() {
   const btn = document.getElementById("btnEnviar");
@@ -198,10 +197,9 @@ function processarDados() {
   const lgpd = document.getElementById("lgpd");
 
   // 1️⃣ Validação
-  // ----------------
   const campos = [telefone, consumo, taxa, municipio, fase];
-    let erro = false;
-  
+  let erro = false;
+
   campos.forEach(campo => {
     campo.classList.remove("error");
     if (!campo.value || campo.value <= 0) {
@@ -213,22 +211,21 @@ function processarDados() {
   if (!lgpd.checked) {
     erro = true;
   }
-  
+
   const errorMsg = document.getElementById("error-msg");
   const resultadoDiv = document.getElementById("resultado");
   
- if (erro) {
-   errorMsg.style.display = "block";
-   resultadoDiv.style.display = "none";
-   return;
- }
+  if (erro) {
+    errorMsg.style.display = "block";
+    resultadoDiv.style.display = "none";
+    return;
+  }
 
   errorMsg.style.display = "none";
   btn.disabled = true;
   btn.innerText = "Enviando...";
   
   // 2️⃣ Cálculo
-  // ----------------
   const consumoVal = parseFloat(consumo.value);
   const taxaVal = parseFloat(taxa.value);
 
@@ -243,11 +240,11 @@ function processarDados() {
   });
 
   // 3️⃣ Mostra resultado
-  // ----------------
-   resultadoDiv.innerHTML = `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
+  resultadoDiv.innerHTML = `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
   resultadoDiv.style.display = "block";
 
   // ENVIO PARA GOOGLE SHEETS
+  // Usando URLSearchParams para evitar problemas de CORS e garantir compatibilidade
   const formData = new URLSearchParams();
   formData.append("telefone", telefone.value);
   formData.append("consumo", consumoVal);
@@ -255,7 +252,7 @@ function processarDados() {
   formData.append("municipio", municipio.value);
   formData.append("fase", fase.value);
   formData.append("resultado", resultadoFormatado);
-  
+
   fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors", // Crucial para evitar bloqueio de CORS no Google Apps Script
