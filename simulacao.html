@@ -214,23 +214,15 @@ button {
 
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby70J4lGVACjiqmxUvwlEOmctK4TKkxVG3GgfkoOwYHmn1pw6feUm-kH676rM7aFu8Z/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSiLRF9u-kOCRzen7tyNmjmMNL55hzFoDX-avHjTGpnwcedG66Od_0ZXeTN9WrpFFi/exec";
 
 function processarDados() {
-  const telefone   = document.getElementById("telefone");
-  const consumo    = document.getElementById("consumo");
-  const taxa       = document.getElementById("taxa");
-  const municipio  = document.getElementById("municipio");
-  const fase       = document.getElementById("fase");
-  const lgpd       = document.getElementById("lgpd");
 
-  const errorMsg   = document.getElementById("error-msg");
-  const resultadoDiv = document.getElementById("resultado");
-
+  // 1️⃣ Validação
+  // ----------------
   const campos = [telefone, consumo, taxa, municipio, fase];
-
   let erro = false;
-  
+
   campos.forEach(campo => {
     campo.classList.remove("error");
     if (!campo.value || campo.value <= 0) {
@@ -238,19 +230,16 @@ function processarDados() {
       erro = true;
     }
   });
-  
-    if (!lgpd.checked) {
-    erro = true;
-  }
 
-  if (erro) {
-    errorMsg.style.display = "block";
-    resultadoDiv.style.display = "none";
+  if (erro || !lgpd.checked) {
+    document.getElementById("error-msg").style.display = "block";
     return;
   }
 
-  errorMsg.style.display = "none";
-
+    document.getElementById("error-msg").style.display = "none";
+  
+  // 2️⃣ Cálculo
+  // ----------------
   const consumoVal = parseFloat(consumo.value);
   const taxaVal = parseFloat(taxa.value);
 
@@ -263,26 +252,26 @@ function processarDados() {
     minimumFractionDigits: 2
   });
 
+  // 3️⃣ Mostra resultado
+  // ----------------
+  const resultadoDiv = document.getElementById("resultado");
   resultadoDiv.innerHTML =
     `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
   resultadoDiv.style.display = "block";
 
   // ENVIO PARA GOOGLE SHEETS
+  const formData = new FormData();
+  formData.append("telefone", telefone.value);
+  formData.append("consumo", consumoVal);
+  formData.append("taxa", taxaVal);
+  formData.append("municipio", municipio.value);
+  formData.append("fase", fase.value);
+  formData.append("resultado", resultadoFormatado);
+
   fetch(SCRIPT_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      telefone: telefone.value,
-      consumo: consumoVal,
-      taxa: taxaVal,
-      municipio: municipio.value,
-      fase: fase.value,
-      resultado: resultadoFormatado
-    })
+    body: formData
   });
-
 
   // WHATSAPP
   const mensagem = `
