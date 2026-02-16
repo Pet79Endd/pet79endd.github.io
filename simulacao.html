@@ -217,19 +217,30 @@ button {
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzd3yqNRrbo9RQGjNXLaRXGy-6-OmrFMiFJxW9uCxR09O2Bw0ERGHCyy8mtPfMhRV_/exec";
 
 function processarDados() {
-  const campos = [
-    telefone, consumo, taxa, municipio, fase
-  ];
+  const telefone  = document.getElementById("telefone");
+  const consumo   = document.getElementById("consumo");
+  const taxa      = document.getElementById("taxa");
+  const municipio = document.getElementById("municipio");
+  const fase      = document.getElementById("fase");
+  const lgpd      = document.getElementById("lgpd");
+  
+  const campos = [telefone, consumo, taxa, municipio, fase];
 
   let erro = false;
+  
   campos.forEach(campo => {
     campo.classList.remove("error");
-    if (!campo.value || campo.value <= 0) {
+    
+    if (!campo.value || (campo.type === "number" && campo.value <= 0) {
       campo.classList.add("error");
       erro = true;
     }
   });
 
+    if (!lgpd.checked) {
+    erro = true;
+  }
+  
   const errorMsg = document.getElementById("error-msg");
   const resultadoDiv = document.getElementById("resultado");
 
