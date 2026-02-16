@@ -4,448 +4,112 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ficha Cadastral | Paz Solar</title>
-
 <style>
-:root {
-  --blue-dark: rgb(20,100,130);
-  --green: rgb(140,220,115);
-  --gray: #f2f2f2;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  background: var(--gray);
-  color: #000;
-}
-
-/* MENU */
-nav {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  z-index: 10;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  background: rgba(0,0,0,0.4);
-  padding: 10px 18px;
-  border-radius: 6px;
-}
-
-/* HERO */
-.hero {
-  height: 50vh;
-  background: url("img/solar.jpg") center/cover no-repeat;
-  background-color: #000;
-}
-  
-/* CONTAINER */
-.section {
-  padding: 60px 10%;
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 50px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-}
-
-/* TEXTOS */
-h1 {
-  font-size: 2.4rem;
-  margin-bottom: 20px;
-  color: var(--blue-dark);
-}
-
-.intro {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
-
-/* WHATSAPP */
-.whatsapp-box {
-  background: #eaffea;
-  padding: 18px;
-  border-radius: 10px;
-  margin-bottom: 40px;
-}
-
-.whatsapp-box a {
-  display: inline-block;
-  margin-top: 8px;
-  font-weight: bold;
-  color: #0a7a3a;
-  text-decoration: none;
-}
-
-/* FORM */
-fieldset {
-  border: none;
-  margin-bottom: 35px;
-}
-
-legend {
-  font-size: 1.35rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: var(--blue-dark);
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 18px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-input:focus,
-select:focus {
-  outline: none;
-  border-color: var(--blue-dark);
-}
-
-.error {
-  border-color: red !important;
-  background: #ffecec;
-}
-
-/* LGPD */
-.lgpd {
-  font-size: 0.95rem;
-  margin-top: 10px;
-  margin-bottom: 25px; /* Espaço antes do botão */
-}
-
-.lgpd a {
-  color: var(--blue-dark);
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.lgpd label {
-  display: flex;
-  align-items: center; /* Alinhamento vertical centralizado */
-  gap: 10px;
-  cursor: pointer;
-  font-weight: normal; /* Texto da LGPD geralmente não é negrito total */
-}
-  
-.lgpd input[type="checkbox"] {
-  width: auto; /* Impede que o checkbox ocupe 100% da largura */
-  margin-bottom: 0; /* Remove margem inferior padrão dos inputs */
-  cursor: pointer;
-}
-
-/* BOTÃO */
-button {
-  background: var(--blue-dark);
-  color: #fff;
-  padding: 18px;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-/* SUCESSO */
-#sucesso {
-  display: none;
-  margin-top: 40px;
-  font-size: 1.3rem;
-  color: green;
-  text-align: center;
-}
-
-/* AJUSTES MOBILE */
-@media (max-width: 768px) {
-  .section { padding: 30px 5%; }
-  .container { padding: 30px 20px; }
-  h1 { font-size: 1.8rem; }
-}
+:root { --blue-dark: rgb(20,100,130); --gray: #f2f2f2; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+body { background: var(--gray); }
+nav { position: absolute; top: 20px; right: 30px; z-index: 10; }
+nav a { color: white; text-decoration: none; font-weight: bold; background: rgba(0,0,0,0.4); padding: 10px 18px; border-radius: 6px; }
+.hero { height: 50vh; background: url("img/solar.jpg") center/cover no-repeat; background-color: #000; }
+.section { padding: 60px 10%; }
+.container { max-width: 900px; margin: 0 auto; background: #fff; padding: 50px; border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+h1 { font-size: 2.4rem; margin-bottom: 20px; color: var(--blue-dark); }
+.intro { font-size: 1.15rem; line-height: 1.6; margin-bottom: 30px; }
+.whatsapp-box { background: #eaffea; padding: 18px; border-radius: 10px; margin-bottom: 40px; }
+fieldset { border: none; margin-bottom: 35px; }
+legend { font-size: 1.35rem; font-weight: bold; margin-bottom: 20px; color: var(--blue-dark); }
+label { display: block; margin-bottom: 6px; font-weight: bold; }
+input, select { width: 100%; padding: 14px; margin-bottom: 18px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
+input.error, select.error { border-color: red !important; background: #ffecec; }
+.lgpd { font-size: 0.95rem; margin-bottom: 25px; }
+.lgpd label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.lgpd input { width: auto; margin-bottom: 0; }
+button { background: var(--blue-dark); color: #fff; padding: 18px; font-size: 1.2rem; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; }
+button:disabled { background: #ccc; }
+#sucesso { display: none; margin-top: 40px; font-size: 1.3rem; color: green; text-align: center; }
+@media (max-width: 768px) { .section { padding: 30px 5%; } .container { padding: 30px 20px; } }
 </style>
 </head>
-
 <body>
-
-<nav>
-  <a href="index.html">Página inicial</a>
-</nav>
-
+<nav><a href="index.html">Página inicial</a></nav>
 <section class="hero"></section>
-  
 <section class="section">
 <div class="container">
-
 <h1>Ficha Cadastral – PAZ Solar</h1>
-
-<p class="intro">
-Falta pouco para você começar a utilizar energia limpa enquanto economiza até 20% na sua conta de energia.<br><br>
-Preencha o formulário abaixo com atenção para fazer o seu cadastro e finalmente ser um cliente Paz Solar!.
-</p>
-
-<div class="whatsapp-box">
-Dúvidas no preenchimento?<br>
-<a href="https://wa.me/5584996710787" target="_blank">📲 (84) 99671-0787</a>
-</div>
-
+<p class="intro">Preencha o formulário abaixo com atenção para fazer o seu cadastro.</p>
+<div class="whatsapp-box">Dúvidas? <a href="https://wa.me/5584996710787" target="_blank">📲 (84) 99671-0787</a></div>
 <form id="formCliente">
-
 <fieldset>
 <legend>Dados Pessoais</legend>
-
-<label>Nome e sobrenome</label>
-<input type="text" id="nome" required>
-
-<label>CPF</label>
-<input type="text" id="cpf" required>
-
-<label>RG</label>
-<input type="text" id="rg" required>
-
-<label>Órgão expedidor</label>
-<input type="text" id="orgao" required>
-
-<label>UF</label>
-<input type="text" id="uf" maxlength="2" required>
-
-<label>E-mail</label>
-<input type="email" id="email" required>
-
-<label>Telefone</label>
-<input type="text" id="telefone" required>
+<label>Nome e sobrenome</label><input type="text" id="nome" required>
+<label>CPF</label><input type="text" id="cpf" required>
+<label>RG</label><input type="text" id="rg" required>
+<label>Órgão expedidor</label><input type="text" id="orgao" required>
+<label>UF</label><input type="text" id="uf" maxlength="2" required>
+<label>E-mail</label><input type="email" id="email" required>
+<label>Telefone</label><input type="text" id="telefone" required>
 </fieldset>
-
 <fieldset>
 <legend>Dados da Unidade Consumidora</legend>
-<label>CEP</label>
-<input type="text" id="cep" required>
-
-<label>Endereço</label>
-<input type="text" id="endereco" required>
-
-<label>Número</label>
-<input type="text" id="numero" required>
-
-<label>Complemento</label>
-<input type="text" id="complemento">
-
-<label>Bairro</label>
-<input type="text" id="bairro" required>
-
-<label>Município</label>
-<input type="text" id="municipio" required>
-
-<label>Estado</label>
-<input type="text" id="estado" maxlength="2" required>
-
-<label>Tipo de imóvel</label>
-<select id="tipoImovel" required>
-  <option value="">Selecione</option>
-  <option>Urbano</option>
-  <option>Rural</option>
-</select>
-
-<label>Uso do imóvel</label>
-<select id="usoImovel" required>
-  <option value="">Selecione</option>
-  <option>Residencial</option>
-  <option>Comercial</option>
-</select>
+<label>CEP</label><input type="text" id="cep" required>
+<label>Endereço</label><input type="text" id="endereco" required>
+<label>Número</label><input type="text" id="numero" required>
+<label>Complemento</label><input type="text" id="complemento">
+<label>Bairro</label><input type="text" id="bairro" required>
+<label>Município</label><input type="text" id="municipio" required>
+<label>Estado</label><input type="text" id="estado" maxlength="2" required>
+<label>Tipo de imóvel</label><select id="tipoImovel" required><option value="">Selecione</option><option>Urbano</option><option>Rural</option></select>
+<label>Uso do imóvel</label><select id="usoImovel" required><option value="">Selecione</option><option>Residencial</option><option>Comercial</option></select>
 </fieldset>
-
 <fieldset>
-<legend>Dados da conta de energia da COSERN</legend>
-<label>Código da Instalação</label>
-<input type="number" id="codigoInstalacao" required>
-
-<label>Código do Cliente</label>
-<input type="number" id="codigoCliente" required>
-
-<label>Consumo médio (kWh)</label>
-<input type="number" id="consumoMedioAnual" required>
-
-<label>TIP (R$)</label>
-<input type="number" id="tip" required>
-
-<label>Débitos vencidos?</label>
-<select id="debitosVencidos" required>
-  <option value="">Selecione</option>
-  <option>SIM</option>
-  <option>NÃO</option>
-</select>
+<legend>Dados da conta de energia</legend>
+<label>Código da Instalação</label><input type="number" id="codigoInstalacao" required>
+<label>Código do Cliente</label><input type="number" id="codigoCliente" required>
+<label>Consumo médio (kWh)</label><input type="number" id="consumoMedioAnual" required>
+<label>TIP (R$)</label><input type="number" id="tip" required>
+<label>Débitos vencidos?</label><select id="debitosVencidos" required><option value="">Selecione</option><option>SIM</option><option>NÃO</option></select>
 </fieldset>
-
 <fieldset>
 <legend>Dados do contrato</legend>
-<label>Possui conta ouro ou prata no site www.gov.br?</label>
-<select id="gov" required>
-  <option value="">Selecione</option>
-  <option>SIM</option>
-  <option>NÃO</option>
-</select>
-
-<label>Data de preferência para cobrança</label>
-<select id="dataCobranca" required>
-  <option value="">Selecione</option>
-  <option>1º dia útil</option>
-  <option>5º dia útil</option>
-  <option>15º dia útil</option>
-</select>
-
-<label>Forma de cobrança</label>
-<select id="formaCobranca" required>
-  <option value="">Selecione</option>
-  <option>PIX</option>
-  <option>Boleto</option>
-  <option>Cartão de Crédito</option>
-</select>
+<label>Conta ouro ou prata gov.br?</label><select id="gov" required><option value="">Selecione</option><option>SIM</option><option>NÃO</option></select>
+<label>Data de cobrança</label><select id="dataCobranca" required><option value="">Selecione</option><option>1º dia útil</option><option>5º dia útil</option><option>15º dia útil</option></select>
+<label>Forma de cobrança</label><select id="formaCobranca" required><option value="">Selecione</option><option>PIX</option><option>Boleto</option><option>Cartão de Crédito</option></select>
 </fieldset>
-  
-<div class="lgpd">
-<label>
-<input type="checkbox" id="lgpd" required>
-Li e concordo com a <a href="privacidade.html" target="_blank">Política de Privacidade</a>.
-</label>
-</div>
-
+<div class="lgpd"><label><input type="checkbox" id="lgpd" required> Li e concordo com a Política de Privacidade.</label></div>
 <button type="submit" id="btnEnviar">Enviar cadastro</button>
-
-<div id="sucesso">
-Cadastro enviado com sucesso!<br>
-Em breve entraremos em contato 😊
-</div>
-
+<div id="sucesso">Cadastro enviado com sucesso! 😊</div>
 </form>
-
 </div>
 </section>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
-
 const form = document.getElementById("formCliente");
 const btn = document.getElementById("btnEnviar");
-const lgpd = document.getElementById("lgpd");
-
-// Lista de IDs para validação
-const idsCampos = [
-  "nome","cpf","rg","orgao","uf","email","telefone","cep",
-  "endereco","numero","bairro","municipio","estado",
-  "codigoInstalacao","codigoCliente","consumoMedioAnual","tip",
-  "gov", "dataCobranca", "formaCobranca", "tipoImovel", "usoImovel", "debitosVencidos"
-];
-
-document.getElementById("cep").addEventListener("blur", function () {
-  const cep = this.value.replace(/\D/g, "");
-  if (cep.length !== 8) return;
-
-  fetch(`https://viacep.com.br/ws/${cep}/json/`)
-    .then(res => res.json())
-    .then(dados => {
-      if (!dados.erro) {
-        document.getElementById("endereco").value = dados.logradouro || "";
-        document.getElementById("bairro").value = dados.bairro || "";
-        document.getElementById("municipio").value = dados.localidade || "";
-        document.getElementById("estado").value = dados.uf || "";
-      }
-    });
-});
 
 form.addEventListener("submit", e => {
   e.preventDefault();
-
   let erro = false;
-  const dadosParaEnvio = new URLSearchParams();
+  const dados = new URLSearchParams();
+  const ids = ["nome","cpf","rg","orgao","uf","email","telefone","cep","endereco","numero","complemento","bairro","municipio","estado","tipoImovel","usoImovel","codigoInstalacao","codigoCliente","consumoMedioAnual","tip","debitosVencidos","gov","dataCobranca","formaCobranca"];
 
-  idsCampos.forEach(id => {
-    const campo = document.getElementById(id);
-    if (campo) {
-      campo.classList.remove("error");
-      if (campo.hasAttribute("required") && !campo.value) {
-        campo.classList.add("error");
-        erro = true;
-      }
-      dadosParaEnvio.append(id, campo.value);
-    }
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove("error");
+    if (el.hasAttribute("required") && !el.value) { el.classList.add("error"); erro = true; }
+    dados.append(id, el.value);
   });
 
-  if (!lgpd.checked) {
-    alert("Você precisa aceitar a Política de Privacidade.");
-    return;
-  }
+  if (!document.getElementById("lgpd").checked) { alert("Aceite a Política de Privacidade."); return; }
+  if (erro) { alert("Preencha os campos obrigatórios."); return; }
 
-  if (erro) {
-    alert("Por favor, preencha todos os campos obrigatórios em destaque.");
-    return;
-  }
-
-  // Desabilita botão para evitar múltiplos envios
-  btn.disabled = true;
-  btn.innerText = "Enviando...";
-
-  // Envio para Google Sheets (Aba Cliente)
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: dadosParaEnvio.toString()
-  })
-  .then(() => {
-    console.log("Dados enviados!");
-    enviarWhatsApp();
-    form.style.display = "none";
-    document.getElementById("sucesso").style.display = "block";
-  })
-  .catch(error => {
-    console.error("Erro:", error);
-    alert("Erro ao salvar dados, mas vamos prosseguir para o WhatsApp.");
-    enviarWhatsApp();
-  });
+  btn.disabled = true; btn.innerText = "Enviando...";
+  fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: dados.toString() })
+    .then(() => {
+      const msg = `Cadastro PAZ SOLAR 🌞\nNome: ${document.getElementById("nome").value}\nTelefone: ${document.getElementById("telefone").value}`;
+      window.location.href = "https://wa.me/5584996710787?text=" + encodeURIComponent(msg);
+    });
 });
-
-function enviarWhatsApp() {
-  const nome = document.getElementById("nome").value;
-  const tel = document.getElementById("telefone").value;
-  const mun = document.getElementById("municipio").value;
-  
-  const msg = `Cadastro PAZ SOLAR 🌞\n\nNome: ${nome}\nTelefone: ${tel}\nMunicípio: ${mun}\n\nAcabei de enviar minha ficha cadastral pelo site e gostaria de confirmar o recebimento.`;
-  
-  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
-}
 </script>
-
 </body>
 </html>
