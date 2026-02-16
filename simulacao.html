@@ -53,6 +53,7 @@ button:disabled { background: #ccc; cursor: not-allowed; }
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
+
 function processarDados() {
   const btn = document.getElementById("btnEnviar");
   const campos = ["telefone", "consumo", "taxa", "municipio", "fase"];
@@ -73,28 +74,46 @@ function processarDados() {
   btn.disabled = true;
   btn.innerText = "Enviando...";
 
+  const telVal = document.getElementById("telefone").value;
+  const munVal = document.getElementById("municipio").value;
   const consumoVal = parseFloat(document.getElementById("consumo").value);
   const taxaVal = parseFloat(document.getElementById("taxa").value);
-  const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.67) + (consumoVal * 0.12) + (consumoVal * 0.162) + taxaVal;
+  const faseVal = document.getElementById("fase").value;
+  
+  const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.53) + (consumoVal * 0.2115) + taxaVal;
   const resFormatado = resultadoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   document.getElementById("resultado").innerHTML = `Seu novo custo mensal simulado é de R$ ${resFormatado}`;
   document.getElementById("resultado").style.display = "block";
 
-  const formData = new URLSearchParams();
-  formData.append("telefone", document.getElementById("telefone").value);
-  formData.append("consumo", consumoVal);
-  formData.append("taxa", taxaVal);
-  formData.append("municipio", document.getElementById("municipio").value);
-  formData.append("fase", document.getElementById("fase").value);
-  formData.append("resultado", resFormatado);
+  // Correção do envio: Usando URLSearchParams corretamente para preencher todas as colunas
+  const params = new URLSearchParams();
+  params.append("telefone", telVal);
+  params.append("consumo", consumoVal);
+  params.append("taxa", taxaVal);
+  params.append("municipio", munVal);
+  params.append("fase", faseVal);
+  params.append("resultado", resFormatado);
 
-  fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: formData.toString() })
-    .then(() => {
-      const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${document.getElementById("telefone").value}\nMunicípio: ${document.getElementById("municipio").value}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
-      window.location.href = "https://wa.me/5584996710787?text=" + encodeURIComponent(msg);
-    })
-    .catch(() => { alert("Erro ao salvar, mas vamos ao WhatsApp."); window.location.href = "https://wa.me/5584996710787?text=" + encodeURIComponent(msg); });
+  fetch(SCRIPT_URL, { 
+    method: "POST", 
+    mode: "no-cors", 
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params.toString() 
+  })
+  .then(() => {
+    const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
+    // Correção: Abre o WhatsApp em uma NOVA ABA
+    window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
+    btn.disabled = false;
+    btn.innerText = "Processar seus dados";
+  })
+  .catch(() => { 
+    const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
+    window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
+    btn.disabled = false;
+    btn.innerText = "Processar seus dados";
+  });
 }
 </script>
 </body>
