@@ -217,32 +217,31 @@ button {
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby70J4lGVACjiqmxUvwlEOmctK4TKkxVG3GgfkoOwYHmn1pw6feUm-kH676rM7aFu8Z/exec";
 
 function processarDados() {
-  const telefone  = document.getElementById("telefone");
-  const consumo   = document.getElementById("consumo");
-  const taxa      = document.getElementById("taxa");
-  const municipio = document.getElementById("municipio");
-  const fase      = document.getElementById("fase");
-  const lgpd      = document.getElementById("lgpd");
-  
+  const telefone   = document.getElementById("telefone");
+  const consumo    = document.getElementById("consumo");
+  const taxa       = document.getElementById("taxa");
+  const municipio  = document.getElementById("municipio");
+  const fase       = document.getElementById("fase");
+  const lgpd       = document.getElementById("lgpd");
+
+  const errorMsg   = document.getElementById("error-msg");
+  const resultadoDiv = document.getElementById("resultado");
+
   const campos = [telefone, consumo, taxa, municipio, fase];
 
   let erro = false;
   
   campos.forEach(campo => {
     campo.classList.remove("error");
-    
-    if (!campo.value || (campo.type === "number" && campo.value <= 0) {
+    if (!campo.value || campo.value <= 0) {
       campo.classList.add("error");
       erro = true;
     }
   });
-
+  
     if (!lgpd.checked) {
     erro = true;
   }
-  
-  const errorMsg = document.getElementById("error-msg");
-  const resultadoDiv = document.getElementById("resultado");
 
   if (erro) {
     errorMsg.style.display = "block";
@@ -267,15 +266,6 @@ function processarDados() {
   resultadoDiv.innerHTML =
     `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
   resultadoDiv.style.display = "block";
-
-  // ID no formato aaaammddhhmmss
-  const agora = new Date();
-  const id = agora.getFullYear().toString() +
-             String(agora.getMonth()+1).padStart(2,"0") +
-             String(agora.getDate()).padStart(2,"0") +
-             String(agora.getHours()).padStart(2,"0") +
-             String(agora.getMinutes()).padStart(2,"0") +
-             String(agora.getSeconds()).padStart(2,"0");
 
   // ENVIO PARA GOOGLE SHEETS
   fetch(SCRIPT_URL, {
