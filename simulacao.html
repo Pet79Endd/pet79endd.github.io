@@ -49,7 +49,7 @@ button:disabled { background: #ccc; cursor: not-allowed; }
   </form>
   <div id="resultado"></div>
 </section>
-
+  
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
@@ -71,22 +71,26 @@ function processarDados() {
   if (erro) { errorMsg.style.display = "block"; return; }
   errorMsg.style.display = "none";
 
-  btn.disabled = true;
-  btn.innerText = "Enviando...";
-
+  // Captura valores
   const telVal = document.getElementById("telefone").value;
   const munVal = document.getElementById("municipio").value;
   const consumoVal = parseFloat(document.getElementById("consumo").value);
   const taxaVal = parseFloat(document.getElementById("taxa").value);
   const faseVal = document.getElementById("fase").value;
   
+  // Cálculo
   const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.53) + (consumoVal * 0.2115) + taxaVal;
   const resFormatado = resultadoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+  // Mostra resultado na tela
   document.getElementById("resultado").innerHTML = `Seu novo custo mensal simulado é de R$ ${resFormatado}`;
   document.getElementById("resultado").style.display = "block";
 
-  // Correção do envio: Usando URLSearchParams corretamente para preencher todas as colunas
+  // 1️⃣ ABRE O WHATSAPP IMEDIATAMENTE (Ação direta do usuário evita bloqueio de pop-up)
+  const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
+  window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
+
+  // 2️⃣ ENVIA PARA O GOOGLE SHEETS EM SEGUNDO PLANO
   const params = new URLSearchParams();
   params.append("telefone", telVal);
   params.append("consumo", consumoVal);
@@ -100,20 +104,15 @@ function processarDados() {
     mode: "no-cors", 
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: params.toString() 
-  })
-  .then(() => {
-    const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
-    // Correção: Abre o WhatsApp em uma NOVA ABA
-    window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
-    btn.disabled = false;
-    btn.innerText = "Processar seus dados";
-  })
-  .catch(() => { 
-    const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
-    window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
-    btn.disabled = false;
-    btn.innerText = "Processar seus dados";
   });
+
+  // Opcional: Desabilitar o botão por alguns segundos para evitar cliques duplos
+  btn.disabled = true;
+  btn.innerText = "Simulação enviada!";
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerText = "Processar seus dados";
+  }, 5000);
 }
 </script>
 </body>
