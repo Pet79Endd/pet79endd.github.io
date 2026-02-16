@@ -86,6 +86,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+  
 /* LGPD */
 .lgpd {
   font-size: 0.95rem;
@@ -125,48 +130,15 @@ button {
 /* 📱 AJUSTES MOBILE */
 /* ===================== */
 @media (max-width: 768px) {
-
-  nav {
-    top: 15px;
-    right: 15px;
-  }
-
-  nav a {
-    padding: 8px 14px;
-    font-size: 0.9rem;
-  }
-
-  .hero {
-    height: 35vh;
-    background-size: cover;
-  }
-
-  .section {
-    padding: 50px 6%;
-  }
-
-  .section h2 {
-    font-size: 2rem;
-    margin-bottom: 35px;
-  }
-
-  input, select {
-    padding: 14px;
-    font-size: 1rem;
-  }
-
-  button {
-    padding: 16px;
-    font-size: 1.1rem;
-  }
-
-  #resultado {
-    font-size: 1.5rem;
-  }
-
-  .lgpd {
-    font-size: 0.85rem;
-  }
+  nav { top: 15px; right: 15px; }
+  nav a { padding: 8px 14px; font-size: 0.9rem; }
+  .hero { height: 35vh; background-size: cover; }
+  .section { padding: 50px 6%; }
+  .section h2 { font-size: 2rem; margin-bottom: 35px; }
+  input, select { padding: 14px; font-size: 1rem; }
+  button { padding: 16px; font-size: 1.1rem; }
+  #resultado { font-size: 1.5rem; }
+  .lgpd { font-size: 0.85rem; }
 }
 </style>
 </head>
@@ -205,7 +177,7 @@ button {
       </label>
     </div>
 
-    <button type="button" onclick="processarDados()">Processar seus dados</button>
+    <button type="button" id="btnEnviar" onclick="processarDados()">Processar seus dados</button>
     <div id="error-msg">Faltou preencher algum dado acima ou aceitar a Política de Privacidade!</div>
   </form>
 
@@ -214,17 +186,22 @@ button {
  
 <script>
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzX7VkzCjYHC6OzFMjQst5AmeMWwK7wL-zVHEquM3keXJV03WOSuZb4H2WR96JRf2jceQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEPDJFXn538EINZa8pjVc43ItSZGP44FwMWjrp_jG7b-OIj7bIm672IAZxe_GX-XPPtg/exec";
 
 function processarDados() {
+  const btn = document.getElementById("btnEnviar");
+  const telefone = document.getElementById("telefone");
+  const consumo = document.getElementById("consumo");
+  const taxa = document.getElementById("taxa");
+  const municipio = document.getElementById("municipio");
+  const fase = document.getElementById("fase");
+  const lgpd = document.getElementById("lgpd");
 
   // 1️⃣ Validação
   // ----------------
-  const campos = [
-    telefone, consumo, taxa, municipio, fase
-  ];
+  const campos = [telefone, consumo, taxa, municipio, fase];
+    let erro = false;
   
-  let erro = false;
   campos.forEach(campo => {
     campo.classList.remove("error");
     if (!campo.value || campo.value <= 0) {
@@ -233,6 +210,10 @@ function processarDados() {
     }
   });
 
+  if (!lgpd.checked) {
+    erro = true;
+  }
+  
   const errorMsg = document.getElementById("error-msg");
   const resultadoDiv = document.getElementById("resultado");
   
@@ -243,6 +224,8 @@ function processarDados() {
  }
 
   errorMsg.style.display = "none";
+  btn.disabled = true;
+  btn.innerText = "Enviando...";
   
   // 2️⃣ Cálculo
   // ----------------
@@ -255,55 +238,50 @@ function processarDados() {
   const resultadoFinal = parteSolar + custoAtual;
 
   const resultadoFormatado = resultadoFinal.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   });
 
   // 3️⃣ Mostra resultado
   // ----------------
-   resultadoDiv.innerHTML =
-    `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
+   resultadoDiv.innerHTML = `Seu novo custo mensal de energia que simulamos é de R$ ${resultadoFormatado}`;
   resultadoDiv.style.display = "block";
 
-/// ID no formato aaaammddhhmmss
-  const agora = new Date();
-  const id = agora.getFullYear().toString() +
-    String(agora.getMonth()+1).padStart(2,"0") +
-    String(agora.getDate()).padStart(2,"0") +
-    String(agora.getHours()).padStart(2,"0") +
-    String(agora.getMinutes()).padStart(2,"0") +
-    String(agora.getSeconds()).padStart(2,"0");
-  
   // ENVIO PARA GOOGLE SHEETS
+  const formData = new URLSearchParams();
+  formData.append("telefone", telefone.value);
+  formData.append("consumo", consumoVal);
+  formData.append("taxa", taxaVal);
+  formData.append("municipio", municipio.value);
+  formData.append("fase", fase.value);
+  formData.append("resultado", resultadoFormatado);
+  
   fetch(SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify({
-      id,
-      nome: nome.value,
-      telefone: telefone.value,
-      consumo: consumoVal,
-      taxa: taxaVal,
-      municipio: municipio.value,
-      fase: fase.value,
-      resultado: resultadoFormatado 
-    })
+    mode: "no-cors", // Crucial para evitar bloqueio de CORS no Google Apps Script
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: formData.toString()
+  })
+  .then(() => {
+    console.log("Dados enviados com sucesso!");
+    abrirWhatsApp(telefone.value, municipio.value, consumoVal, resultadoFormatado);
+  })
+  .catch(error => {
+    console.error("Erro ao enviar:", error);
+    alert("Houve um erro ao salvar os dados, mas você será redirecionado ao WhatsApp.");
+    abrirWhatsApp(telefone.value, municipio.value, consumoVal, resultadoFormatado);
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.innerText = "Processar seus dados";
   });
+}
 
-  // WHATSAPP
-  const mensagem = `
-Olá! Acabei de fazer uma simulação na Paz Solar 😊
-
-Telefone: ${telefone.value}
-Município: ${municipio.value}
-Consumo médio: ${consumoVal} kWh
-
-💡 Valor simulado: R$ ${resultadoFormatado}
-
-Gostaria de falar com um consultor.
-`;
-
-  const urlWhatsApp =
-    "https://wa.me/5584996710787?text=" + encodeURIComponent(mensagem);
-
+function abrirWhatsApp(tel, mun, cons, res) {
+  const mensagem = `Olá! Acabei de fazer uma simulação na Paz Solar 😊\n\nTelefone: ${tel}\nMunicípio: ${mun}\nConsumo médio: ${cons} kWh\n\n💡 Valor simulado: R$ ${res}\n\nGostaria de falar com um consultor.`;
+  const urlWhatsApp = "https://wa.me/5584996710787?text=" + encodeURIComponent(mensagem);
   window.open(urlWhatsApp, "_blank");
 }
 </script>
