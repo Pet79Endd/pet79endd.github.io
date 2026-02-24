@@ -512,7 +512,18 @@ document.getElementById("menuToggle").onclick = () => {
   document.getElementById("navMenu").classList.toggle("active");
 };
 
-fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAuaClfFQaYUJkAXxI90Q7cryD3pH6w-HtQXX/exec")
+  // Função para converter data "DD/MM/YYYY" para objeto Date
+function parseDataBR(dataString) {
+  if (!dataString) return new Date(0);
+  const partes = dataString.split('/');
+  if (partes.length === 3) {
+    // Formato DD/MM/YYYY -> Meses no JS começam em 0
+    return new Date(partes[2], partes[1] - 1, partes[0]);
+  }
+  return new Date(dataString); // Fallback para ISO
+}
+  
+fetch("https://script.google.com/macros/s/AKfycbxt37z_aILLb8V226pXoWr4KBMeigj8jtU14dknXb2aFE0LG2st8PbDSge0mf9ur7RP/exec")
   .then(res => res.json())
   .then(posts => {
     
@@ -522,30 +533,27 @@ fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAu
     const hoje = new Date();
     const LIMITE_DIAS = 60;
 
-    /* Converte data BR para Date */
-    function parseData(data) {
-      return new Date(data);
-    }
-
-    /* FILTRO + ORDENAÇÃO */
-    const postsValidos = posts.filter(p => {
-      if (!p.data) return false;
-      const dataPost = parseData(p.data);
-      if (isNaN(dataPost)) return false;
-      const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
-      return diffDias <= LIMITE_DIAS;
-    });
+        /* FILTRO + ORDENAÇÃO */
+    const postsProcessados = posts
+      .filter(p => {
+        if (!p.data) return false;
+        const dataPost = parseDataBR(p.data);
+        const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
+        return diffDias <= LIMITE_DIAS;
+      })
     
       .sort((a, b) => {
+        // Prioridade numérica (maior primeiro)
         if (b.prioridade !== a.prioridade) {
-          return b.prioridade - a.prioridade;
+          return (b.prioridade || 0) - (a.prioridade || 0);
         }
+        // Data (mais recente primeiro)
         return parseDataBR(b.data) - parseDataBR(a.data);
       })
       .slice(0, 6);
 
-    if (!postsValidos.length) {
-      console.warn("Nenhum post válido encontrado");
+    if (postsProcessados.length === 0) {
+      container.innerHTML = "<p style='text-align:center; width:100%;'>Nenhuma novidade recente.</p>";
       return;
     }
     
@@ -568,7 +576,7 @@ fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAu
     new Swiper(".posts-swiper", {
       slidesPerView: 1.2,
       spaceBetween: 20,
-      freeMode: true,
+      centeredSlides: false,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
@@ -580,6 +588,7 @@ fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAu
       breakpoints: {
         768: {
           slidesPerView: 3
+          spaceBetween: 30
         }
       }
     });
@@ -587,6 +596,7 @@ fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAu
   })
   .catch(error => {
     console.error("Erro ao carregar posts:", error);
+    document.getElementById("posts-container").innerHTML = "Erro ao carregar conteúdos.";
   });
 </script>
 
