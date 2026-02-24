@@ -555,7 +555,7 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
     const c = document.getElementById("posts-container");
     c.innerHTML = ""; 
     
-    selecionados.forEach(p => {
+    selecionados.forEach(p, index) => {
       c.innerHTML += `
         <div class="swiper-slide ${index === 0 ? 'post-destaque' : ''}">
           <a class="post-card" href="${p.link}" target="_blank" rel="noopener">
