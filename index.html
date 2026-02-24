@@ -513,7 +513,7 @@ document.getElementById("menuToggle").onclick = () => {
 };
 
 fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qyZF4s7rUZzC3RPZjGmdEvitjMr-jajLKLq0/exec")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(posts => {
     
     const container = document.getElementById("posts-container");
@@ -524,22 +524,32 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
 
     /* Converte data BR para Date */
     function parseDataBR(data) {
-      const [dia, mes, ano] = data.split("/");
-      return new Date(ano, mes - 1, dia);
+     const [d, m, a] = data.split("/");
+      return new Date(a, m - 1, d);
     }
 
-    /* Filtra posts até 60 dias */
-    const postsRecentes = posts.filter(p => {
-      const dataPost = parseDataBR(p.data);
-      const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
-      return diffDias <= LIMITE_DIAS;
-    });
+    /* FILTRO + ORDENAÇÃO */
+    const postsValidos = posts
+      .filter(p => p.ativo === true)
+      .filter(p => {
+        const diff = (HOJE - parseDataBR(p.data)) / (1000 * 60 * 60 * 24);
+        return diff <= LIMITE_DIAS;
+      })
+      .sort((a, b) => {
+        if (b.prioridade !== a.prioridade) {
+          return b.prioridade - a.prioridade;
+        }
+        return parseDataBR(b.data) - parseDataBR(a.data);
+      })
+      .slice(0, 6);
 
-    /* Ordena do mais recente para o mais antigo */
-    postsRecentes.sort((a, b) => parseDataBR(b.data) - parseDataBR(a.data));
-
+    if (!postsValidos.length) {
+      console.warn("Nenhum post válido encontrado");
+      return;
+    }
+    
     /* Renderiza os cards */
-    postsRecentes.forEach((post, index) => {
+    postsValidos.forEach((post, index) => {
       container.innerHTML += `
         <div class="swiper-slide ${index === 0 ? "post-destaque" : ""}">
           <a class="post-card" href="${post.link}" target="_blank" rel="noopener">
@@ -558,13 +568,13 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
       slidesPerView: 1.2,
       spaceBetween: 20,
       freeMode: true,
-      scrollbar: {
-        el: ".swiper-scrollbar",
-        draggable: true
-      },
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
+      },
+      scrollbar: {
+        el: ".swiper-scrollbar",
+        draggable: true
       },
       breakpoints: {
         768: {
