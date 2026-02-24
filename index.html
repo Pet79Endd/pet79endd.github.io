@@ -502,26 +502,31 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
       const [d, m, y] = data.split("/");
       return new Date(y, m - 1, d);
     }
-
+   
+      function diasEntre(dataPost) {
+      const hoje = new Date();
+      return (hoje - dataPost) / (1000 * 60 * 60 * 24);
+    }
+    
     const selecionados = posts
       .filter(p => p.ativo !== false)
+      .filter(p => diasEntre(parseDataBR(p.data)) <= 60)
       .sort((a, b) => {
-        // 1º prioridade
         if (b.prioridade !== a.prioridade) {
           return b.prioridade - a.prioridade;
         }
-        // 2º data (mais recente primeiro)
-        return parseDataBR(b.data) - parseDataBR(a.data);
+         return parseDataBR(b.data) - parseDataBR(a.data);
       })
       .slice(0, 6);
     
     const c = document.getElementById("posts-container");
+    c.innerHTML = ""; 
     
     selecionados.forEach(p => {
       c.innerHTML += `
         <div class="swiper-slide">
-          <a class="post-card" href="${p.link}">
-            <img src="${p.imagem}">
+          <a class="post-card" href="${p.link}" target="_blank" rel="noopener">
+            <img src="${p.imagem}" alt="${p.titulo}">
             <div class="post-title">${p.titulo}</div>
           </a>
         </div>`;
