@@ -508,85 +508,55 @@ a.cta-btn:hover {
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-document.getElementById("menuToggle").onclick = () => {
-  document.getElementById("navMenu").classList.toggle("active");
-};
-
-function parseDataBR(dataString) {
-  if (!dataString) return new Date(0);
-  if (dataString instanceof Date) return dataString;
-  const partes = dataString.split('/');
-  if (partes.length === 3) {
-    return new Date(partes[2], partes[1] - 1, partes[0]);
-  }
-  return new Date(dataString);
-}
-
-fetch("https://script.google.com/macros/s/AKfycbyW0yQxpCesP9BN4LauJUDa_R0X9hlaBxTsOoNPxZDVgWNOQOEcXfqm141zgQMA0Vqs/exec")
+fetch("posts.json")
   .then(res => res.json())
   .then(posts => {
-    if (posts.error) {
-      console.error("Erro do Script:", posts.error);
-      return;
-    }
-
-    const container = document.getElementById("posts-container");
-    container.innerHTML = "";
 
     const hoje = new Date();
-    const LIMITE_DIAS = 60;
 
-    const postsFinalizados = posts
+    posts
+      // ocultar posts com mais de 60 dias
       .filter(p => {
-        if (!p.data) return false;
-        const dataPost = parseDataBR(p.data);
-        const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
-        return diffDias <= LIMITE_DIAS;
+        const dataPost = new Date(p.data);
+        const diff = (hoje - dataPost) / (1000 * 60 * 60 * 24);
+        return diff <= 60;
       })
-      .sort((a, b) => {
-        if (b.prioridade !== a.prioridade) {
-          return (Number(b.prioridade) || 0) - (Number(a.prioridade) || 0);
-        }
-        return parseDataBR(b.data) - parseDataBR(a.data);
-      })
-      .slice(0, 6);
 
-    if (postsFinalizados.length === 0) {
-      container.innerHTML = "<p style='text-align:center; width:100%;'>Nenhuma novidade recente encontrada na planilha.</p>";
-      return;
-    }
+      // ordenar por prioridade e data
+      .sort((a, b) =>
+        b.prioridade - a.prioridade ||
+        new Date(b.data) - new Date(a.data)
+      )
 
-    postsFinalizados.forEach((post, index) => {
-      // Ajuste para garantir que o link da imagem funcione se for relativo
-      let urlImagem = post.imagem;
-      if (urlImagem && !urlImagem.startsWith('http')) {
-         urlImagem = "https://pazsolar.com.br/" + urlImagem;
-      }
+      .forEach((post, index) => {
 
-      container.innerHTML += `
-        <div class="swiper-slide ${index === 0 ? "post-destaque" : ""}">
-          <a class="post-card" href="${post.link || '#'}" target="_blank" rel="noopener">
-            <img src="${urlImagem}" alt="${post.titulo}" onerror="this.src='https://via.placeholder.com/400x240?text=Paz+Solar'">
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
+
+        slide.innerHTML = `
+          <a href="${post.link}" class="post-card ${index === 0 ? "destaque" : ""}">
+            <img src="${post.imagem}" alt="${post.titulo}">
             <div class="post-title">
               <span class="post-date">${post.data}</span>
               <div class="post-text">${post.titulo}</div>
             </div>
           </a>
-        </div>
-      `;
-    });
+        `;
 
-    new Swiper(".posts-swiper", {
-      slidesPerView: 1.2,
+        document.querySelector(".swiper-wrapper").appendChild(slide);
+      });
+
+    new Swiper(".swiper", {
+      slidesPerView: 1,
       spaceBetween: 20,
-      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-      scrollbar: { el: ".swiper-scrollbar", draggable: true },
-      breakpoints: { 768: { slidesPerView: 3, spaceBetween: 30 } }
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },
+      breakpoints: {
+        768: { slidesPerView: 3 }
+      }
     });
-  })
-  .catch(error => {
-    console.error("Erro ao carregar posts:", error);
-    document.getElementById("posts-container").innerHTML = "Erro ao conectar com a base de dados.";
   });
 </script>
 
