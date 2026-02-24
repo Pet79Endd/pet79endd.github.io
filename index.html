@@ -227,13 +227,21 @@ a.cta-btn:hover {
   color: var(--blue-dark);
 }
 
-/* Cards */
+/* ===== CARDS ===== */
 .post-card {
   background: #f5f5f5;
   border-radius: 14px;
   overflow: hidden;
   text-decoration: none;
   color: #000;
+  display: block;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
 
 .post-card img {
@@ -248,68 +256,47 @@ a.cta-btn:hover {
 }
 
 .post-date {
-  font-size: 0.9rem;
-  opacity: 0.7;
+  font-size: 0.85rem;
+  opacity: 0.6;
   display: block;
   margin-bottom: 6px;
 }
 
 .post-text {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.05rem;
+  font-weight: 600;
   line-height: 1.4;
 }
 
-/* Swiper */
- .section-posts .swiper {
-  padding: 0 60px;
-}
-  
-.swiper-button-next,
-.swiper-button-prev {
-  color: var(--blue-dark);
-  background: #ffffff;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-  
-.swiper-scrollbar {
-  background: rgba(0,0,0,0.15);
-}
-
-.swiper-scrollbar-drag {
-  background: var(--blue-dark);
-}
-
-/* =========================
-   POST EM DESTAQUE (POST Nº 1)
-========================= */
+/* ===== DESTAQUE POST Nº 1 ===== */
 .post-destaque .post-card {
-  position: relative;
-  transform: scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  background: #ffffff;
   border: 2px solid var(--blue-dark);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+  transform: scale(1.06);
+  position: relative;
 }
 
-.post-destaque .post-card::before {
+/* Selo */
+.post-destaque::before {
   content: "DESTAQUE";
   position: absolute;
   top: 14px;
   left: 14px;
   background: var(--blue-dark);
   color: #fff;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: bold;
   padding: 6px 10px;
   border-radius: 20px;
-  z-index: 2;
-  letter-spacing: 0.5px;
+  z-index: 5;
 }
 
-.post-destaque img {
-  filter: brightness(1.05) contrast(1.05);
+/* Mobile */
+@media (max-width: 768px) {
+  .post-destaque .post-card {
+    transform: scale(1.02);
+  }
 }
 
 /* ===== SEÇÃO 6 ===== */
@@ -489,7 +476,6 @@ a.cta-btn:hover {
   </ul>
 </section>
 
-
 <section class="section-posts">
   <h2>Conteúdos & Novidades</h2>
   <div class="swiper posts-swiper">
@@ -527,52 +513,69 @@ document.getElementById("menuToggle").onclick = () => {
 };
 
 fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qyZF4s7rUZzC3RPZjGmdEvitjMr-jajLKLq0/exec")
-  .then(r => r.json())
+  .then(response => response.json())
   .then(posts => {
     
-      function parseDataBR(data) {
-      const [d, m, y] = data.split("/");
-      return new Date(y, m - 1, d);
+    const container = document.getElementById("posts-container");
+    container.innerHTML = "";
+
+    const hoje = new Date();
+    const LIMITE_DIAS = 60;
+
+    /* Converte data BR para Date */
+    function parseDataBR(data) {
+      const [dia, mes, ano] = data.split("/");
+      return new Date(ano, mes - 1, dia);
     }
-   
-      function diasEntre(dataPost) {
-      const hoje = new Date();
-      return (hoje - dataPost) / (1000 * 60 * 60 * 24);
-    }
-    
-    const selecionados = posts
-      .filter(p => p.ativo !== false)
-      .filter(p => diasEntre(parseDataBR(p.data)) <= 60)
-      .sort((a, b) => {
-        if (b.prioridade !== a.prioridade) {
-          return b.prioridade - a.prioridade;
-        }
-         return parseDataBR(b.data) - parseDataBR(a.data);
-      })
-      .slice(0, 6);
-    
-    const c = document.getElementById("posts-container");
-    c.innerHTML = ""; 
-    
-    selecionados.forEach(p, index) => {
-      c.innerHTML += `
-        <div class="swiper-slide ${index === 0 ? 'post-destaque' : ''}">
-          <a class="post-card" href="${p.link}" target="_blank" rel="noopener">
-            <img src="${p.imagem}" alt="${p.titulo}">
-            <div class="post-title">${p.titulo}</div>
-          </a>
-        </div>`;
+
+    /* Filtra posts até 60 dias */
+    const postsRecentes = posts.filter(p => {
+      const dataPost = parseDataBR(p.data);
+      const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
+      return diffDias <= LIMITE_DIAS;
     });
-    
+
+    /* Ordena do mais recente para o mais antigo */
+    postsRecentes.sort((a, b) => parseDataBR(b.data) - parseDataBR(a.data));
+
+    /* Renderiza os cards */
+    postsRecentes.forEach((post, index) => {
+      container.innerHTML += `
+        <div class="swiper-slide ${index === 0 ? "post-destaque" : ""}">
+          <a class="post-card" href="${post.link}" target="_blank" rel="noopener">
+            <img src="${post.imagem}" alt="${post.titulo}">
+            <div class="post-title">
+              <span class="post-date">${post.data}</span>
+              <div class="post-text">${post.titulo}</div>
+            </div>
+          </a>
+        </div>
+      `;
+    });
+
+    /* Inicializa Swiper */
     new Swiper(".posts-swiper", {
       slidesPerView: 1.2,
       spaceBetween: 20,
       freeMode: true,
-      scrollbar: { el: ".swiper-scrollbar", draggable: true },
+      scrollbar: {
+        el: ".swiper-scrollbar",
+        draggable: true
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },
       breakpoints: {
-        768: { slidesPerView: 3 }
+        768: {
+          slidesPerView: 3
+        }
       }
     });
+
+  })
+  .catch(error => {
+    console.error("Erro ao carregar posts:", error);
   });
 </script>
 
