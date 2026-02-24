@@ -498,10 +498,21 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
   .then(r => r.json())
   .then(posts => {
     
+      function parseDataBR(data) {
+      const [d, m, y] = data.split("/");
+      return new Date(y, m - 1, d);
+    }
+
     const selecionados = posts
       .filter(p => p.ativo !== false)
-      .filter(p => p.tags?.includes("energia"))
-      .sort((a,b) => b.prioridade - a.prioridade)
+      .sort((a, b) => {
+        // 1º prioridade
+        if (b.prioridade !== a.prioridade) {
+          return b.prioridade - a.prioridade;
+        }
+        // 2º data (mais recente primeiro)
+        return parseDataBR(b.data) - parseDataBR(a.data);
+      })
       .slice(0, 6);
     
     const c = document.getElementById("posts-container");
