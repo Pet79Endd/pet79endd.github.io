@@ -283,6 +283,35 @@ a.cta-btn:hover {
   background: var(--blue-dark);
 }
 
+/* =========================
+   POST EM DESTAQUE (POST Nº 1)
+========================= */
+.post-destaque .post-card {
+  position: relative;
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--blue-dark);
+}
+
+.post-destaque .post-card::before {
+  content: "DESTAQUE";
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--blue-dark);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 20px;
+  z-index: 2;
+  letter-spacing: 0.5px;
+}
+
+.post-destaque img {
+  filter: brightness(1.05) contrast(1.05);
+}
+
 /* ===== SEÇÃO 6 ===== */
 .section-6 {
   background: var(--blue-dark);
@@ -333,6 +362,10 @@ a.cta-btn:hover {
    MOBILE – até 768px
 ======================= */
 @media (max-width: 768px) {
+  .post-destaque .post-card {
+    transform: scale(1.02);
+  }
+}
 
   /* ===== MENU ===== */
   .header {
@@ -524,7 +557,7 @@ fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qy
     
     selecionados.forEach(p => {
       c.innerHTML += `
-        <div class="swiper-slide">
+        <div class="swiper-slide ${index === 0 ? 'post-destaque' : ''}">
           <a class="post-card" href="${p.link}" target="_blank" rel="noopener">
             <img src="${p.imagem}" alt="${p.titulo}">
             <div class="post-title">${p.titulo}</div>
