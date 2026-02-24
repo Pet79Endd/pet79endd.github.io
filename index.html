@@ -523,18 +523,19 @@ fetch("https://script.google.com/macros/s/AKfycbzEIadFqHnXX6F20nyNna_EPpt5gINjAu
     const LIMITE_DIAS = 60;
 
     /* Converte data BR para Date */
-    function parseDataBR(data) {
-     const [d, m, a] = data.split("/");
-      return new Date(a, m - 1, d);
+    function parseData(data) {
+      return new Date(data);
     }
 
     /* FILTRO + ORDENAÇÃO */
-    const postsValidos = posts
-      .filter(p => p.ativo === true)
-      .filter(p => {
-        const diff = (HOJE - parseDataBR(p.data)) / (1000 * 60 * 60 * 24);
-        return diff <= LIMITE_DIAS;
-      })
+    const postsValidos = posts.filter(p => {
+      if (!p.data) return false;
+      const dataPost = parseData(p.data);
+      if (isNaN(dataPost)) return false;
+      const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
+      return diffDias <= LIMITE_DIAS;
+    });
+    
       .sort((a, b) => {
         if (b.prioridade !== a.prioridade) {
           return b.prioridade - a.prioridade;
