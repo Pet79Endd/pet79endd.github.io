@@ -494,11 +494,19 @@ document.getElementById("menuToggle").onclick = () => {
   document.getElementById("navMenu").classList.toggle("active");
 };
 
-fetch("posts.json")
+fetch("https://script.google.com/macros/s/AKfycbxysrWrr4M-ElqSxkTRL2FkBT120gB2qyZF4s7rUZzC3RPZjGmdEvitjMr-jajLKLq0/exec")
   .then(r => r.json())
   .then(posts => {
+    
+    const selecionados = posts
+      .filter(p => p.ativo !== false)
+      .filter(p => p.tags?.includes("energia"))
+      .sort((a,b) => b.prioridade - a.prioridade)
+      .slice(0, 6);
+    
     const c = document.getElementById("posts-container");
-    posts.forEach(p => {
+    
+    selecionados.forEach(p => {
       c.innerHTML += `
         <div class="swiper-slide">
           <a class="post-card" href="${p.link}">
