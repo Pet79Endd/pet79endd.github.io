@@ -512,57 +512,61 @@ document.getElementById("menuToggle").onclick = () => {
   document.getElementById("navMenu").classList.toggle("active");
 };
 
-  // Função para converter data "DD/MM/YYYY" para objeto Date
 function parseDataBR(dataString) {
   if (!dataString) return new Date(0);
+  if (dataString instanceof Date) return dataString;
   const partes = dataString.split('/');
   if (partes.length === 3) {
-    // Formato DD/MM/YYYY -> Meses no JS começam em 0
     return new Date(partes[2], partes[1] - 1, partes[0]);
   }
-  return new Date(dataString); // Fallback para ISO
+  return new Date(dataString);
 }
-  
+
 fetch("https://script.google.com/macros/s/AKfycbxt37z_aILLb8V226pXoWr4KBMeigj8jtU14dknXb2aFE0LG2st8PbDSge0mf9ur7RP/exec")
   .then(res => res.json())
   .then(posts => {
-    
+    if (posts.error) {
+      console.error("Erro do Script:", posts.error);
+      return;
+    }
+
     const container = document.getElementById("posts-container");
     container.innerHTML = "";
 
     const hoje = new Date();
     const LIMITE_DIAS = 60;
 
-        /* FILTRO + ORDENAÇÃO */
-    const postsProcessados = posts
+    const postsFinalizados = posts
       .filter(p => {
         if (!p.data) return false;
         const dataPost = parseDataBR(p.data);
         const diffDias = (hoje - dataPost) / (1000 * 60 * 60 * 24);
         return diffDias <= LIMITE_DIAS;
       })
-    
       .sort((a, b) => {
-        // Prioridade numérica (maior primeiro)
         if (b.prioridade !== a.prioridade) {
-          return (b.prioridade || 0) - (a.prioridade || 0);
+          return (Number(b.prioridade) || 0) - (Number(a.prioridade) || 0);
         }
-        // Data (mais recente primeiro)
         return parseDataBR(b.data) - parseDataBR(a.data);
       })
       .slice(0, 6);
 
-    if (postsProcessados.length === 0) {
-      container.innerHTML = "<p style='text-align:center; width:100%;'>Nenhuma novidade recente.</p>";
+    if (postsFinalizados.length === 0) {
+      container.innerHTML = "<p style='text-align:center; width:100%;'>Nenhuma novidade recente encontrada na planilha.</p>";
       return;
     }
-    
-    /* Renderiza os cards */
-    postsValidos.forEach((post, index) => {
+
+    postsFinalizados.forEach((post, index) => {
+      // Ajuste para garantir que o link da imagem funcione se for relativo
+      let urlImagem = post.imagem;
+      if (urlImagem && !urlImagem.startsWith('http')) {
+         urlImagem = "https://pazsolar.com.br/" + urlImagem;
+      }
+
       container.innerHTML += `
         <div class="swiper-slide ${index === 0 ? "post-destaque" : ""}">
-          <a class="post-card" href="${post.link}" target="_blank" rel="noopener">
-            <img src="${post.imagem}" alt="${post.titulo}">
+          <a class="post-card" href="${post.link || '#'}" target="_blank" rel="noopener">
+            <img src="${urlImagem}" alt="${post.titulo}" onerror="this.src='https://via.placeholder.com/400x240?text=Paz+Solar'">
             <div class="post-title">
               <span class="post-date">${post.data}</span>
               <div class="post-text">${post.titulo}</div>
@@ -572,31 +576,17 @@ fetch("https://script.google.com/macros/s/AKfycbxt37z_aILLb8V226pXoWr4KBMeigj8jt
       `;
     });
 
-    /* Inicializa Swiper */
     new Swiper(".posts-swiper", {
       slidesPerView: 1.2,
       spaceBetween: 20,
-      centeredSlides: false,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      scrollbar: {
-        el: ".swiper-scrollbar",
-        draggable: true
-      },
-      breakpoints: {
-        768: {
-          slidesPerView: 3
-          spaceBetween: 30
-        }
-      }
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+      scrollbar: { el: ".swiper-scrollbar", draggable: true },
+      breakpoints: { 768: { slidesPerView: 3, spaceBetween: 30 } }
     });
-
   })
   .catch(error => {
     console.error("Erro ao carregar posts:", error);
-    document.getElementById("posts-container").innerHTML = "Erro ao carregar conteúdos.";
+    document.getElementById("posts-container").innerHTML = "Erro ao conectar com a base de dados.";
   });
 </script>
 
