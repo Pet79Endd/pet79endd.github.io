@@ -227,7 +227,7 @@ a.cta-btn:hover {
   color: var(--blue-dark);
 }
 
-/* ===== CARDS ===== */
+/* ===== POSTS ===== */
 .post-card {
   background: #f5f5f5;
   border-radius: 14px;
@@ -235,13 +235,6 @@ a.cta-btn:hover {
   text-decoration: none;
   color: #000;
   display: block;
-  height: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.post-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
 
 .post-card img {
@@ -250,35 +243,20 @@ a.cta-btn:hover {
   object-fit: cover;
 }
 
-/* Texto */
 .post-title {
   padding: 18px;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-.post-date {
-  font-size: 0.85rem;
-  opacity: 0.6;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.post-text {
-  font-size: 1.05rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-/* ===== DESTAQUE POST Nº 1 ===== */
+/* ===== DESTAQUE (POST Nº 1) ===== */
 .post-destaque .post-card {
-  background: #ffffff;
-  border: 2px solid var(--blue-dark);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
-  transform: scale(1.06);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35);
   position: relative;
 }
 
 /* Selo */
-.post-destaque::before {
+.post-destaque .post-card::before {
   content: "DESTAQUE";
   position: absolute;
   top: 14px;
@@ -287,9 +265,32 @@ a.cta-btn:hover {
   color: #fff;
   font-size: 0.75rem;
   font-weight: bold;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
-  z-index: 5;
+  z-index: 2;
+}
+
+/* ===== SWIPER ===== */
+.section-posts .swiper {
+  padding: 0 60px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--blue-dark);
+  background: #ffffff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.swiper-scrollbar {
+  background: rgba(0,0,0,0.15);
+}
+
+.swiper-scrollbar-drag {
+  background: var(--blue-dark);
 }
 
 /* Mobile */
@@ -478,10 +479,17 @@ a.cta-btn:hover {
 
 <section class="section-posts">
   <h2>Conteúdos & Novidades</h2>
+
   <div class="swiper posts-swiper">
-    <div class="swiper-wrapper" id="posts-container"></div>
+    <div class="swiper-wrapper" id="posts-container">
+      <!-- cards entram via JS -->
+    </div>
+
+    <!-- Setas -->
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
+
+    <!-- Barra -->
     <div class="swiper-scrollbar"></div>
   </div>
 </section>
@@ -509,52 +517,43 @@ a.cta-btn:hover {
 
 <script>
 fetch("posts.json")
-  .then(res => res.json())
+  .then(r => r.json())
   .then(posts => {
 
-    const hoje = new Date();
+    const container = document.getElementById("posts-container");
 
-    posts
-      // ocultar posts com mais de 60 dias
-      .filter(p => {
-        const dataPost = new Date(p.data);
-        const diff = (hoje - dataPost) / (1000 * 60 * 60 * 24);
-        return diff <= 60;
-      })
+    posts.forEach((p, index) => {
+      const destaqueClass = index === 0 ? "post-destaque" : "";
 
-      // ordenar por prioridade e data
-      .sort((a, b) =>
-        b.prioridade - a.prioridade ||
-        new Date(b.data) - new Date(a.data)
-      )
-
-      .forEach((post, index) => {
-
-        const slide = document.createElement("div");
-        slide.className = "swiper-slide";
-
-        slide.innerHTML = `
-          <a href="${post.link}" class="post-card ${index === 0 ? "destaque" : ""}">
-            <img src="${post.imagem}" alt="${post.titulo}">
-            <div class="post-title">
-              <span class="post-date">${post.data}</span>
-              <div class="post-text">${post.titulo}</div>
-            </div>
+      container.innerHTML += `
+        <div class="swiper-slide ${destaqueClass}">
+          <a class="post-card" href="${p.link}" target="_blank" rel="noopener">
+            <img src="${p.imagem}" alt="${p.titulo}">
+            <div class="post-title">${p.titulo}</div>
           </a>
-        `;
+        </div>
+      `;
+    });
 
-        document.querySelector(".swiper-wrapper").appendChild(slide);
-      });
-
-    new Swiper(".swiper", {
-      slidesPerView: 1,
+    new Swiper(".posts-swiper", {
+      slidesPerView: 1.2,
       spaceBetween: 20,
+      freeMode: true,
+
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
       },
+
+      scrollbar: {
+        el: ".swiper-scrollbar",
+        draggable: true
+      },
+
       breakpoints: {
-        768: { slidesPerView: 3 }
+        768: {
+          slidesPerView: 3
+        }
       }
     });
   });
