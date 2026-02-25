@@ -35,7 +35,8 @@ button:disabled { background: #ccc; cursor: not-allowed; }
     <input type="tel" id="telefone" placeholder="Telefone de contato">
     <input type="number" id="consumo" placeholder="Consumo médio em kWh (12 meses)">
     <input type="number" step="0.01" id="taxa" placeholder="Taxa de Iluminação Pública (R$)">
-    <input type="text" id="municipio" placeholder="Município">
+    <input type="text" id="cep" placeholder="CEP" maxlength="9">
+    <input type="text" id="municipio" placeholder="Município" readonly>
     <select id="fase">
       <option value="">Selecione a fase da unidade</option>
       <option value="Monofásica">Monofásica</option>
@@ -54,9 +55,36 @@ button:disabled { background: #ccc; cursor: not-allowed; }
 // 🔴 COLE AQUI A URL DO SEU APPS SCRIPT
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwAKtNuG2-x5KAX3xdNBwQzOKc5g0AkfyrGuqs1q3E-e1lB9xCzvOfjNLa9vYbQTw1bw/exec";
 
+document.getElementById("cep").addEventListener("input", function () {
+  let v = this.value.replace(/\D/g, "");
+  if (v.length > 5) v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+  this.value = v;
+
+function buscarCEP() {
+  const cep = document.getElementById("cep").value
+    .replace(/\D/g, "");
+
+  if (cep.length !== 8) return;
+
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.erro) {
+        alert("CEP não encontrado");
+        return;
+      }
+
+      document.getElementById("endereco").value = data.logradouro || "";
+      document.getElementById("municipio").value = data.localidade || "";
+      document.getElementById("estado").value = data.uf || "";
+    })
+    .catch(() => {
+      alert("Erro ao buscar CEP");
+    });
+  
 function processarDados() {
   const btn = document.getElementById("btnEnviar");
-  const campos = ["telefone", "consumo", "taxa", "municipio", "fase"];
+  const campos = ["telefone", "consumo", "taxa", "cep", "municipio", "fase"];
   let erro = false;
 
   campos.forEach(id => {
@@ -73,6 +101,7 @@ function processarDados() {
 
   // Captura valores
   const telVal = document.getElementById("telefone").value;
+  const cepVal = document.getElementById("cep").value;
   const munVal = document.getElementById("municipio").value;
   const consumoVal = parseFloat(document.getElementById("consumo").value);
   const taxaVal = parseFloat(document.getElementById("taxa").value);
@@ -80,6 +109,7 @@ function processarDados() {
 
 const payload = {
   telefone: telVal,
+  cep: cepVal,
   municipio: munVal,
   consumo: consumoVal,
   fase: faseVal
@@ -97,6 +127,8 @@ function mostrarResultado(data) {
   // 1️⃣ ABRE O WHATSAPP IMEDIATAMENTE (Ação direta do usuário evita bloqueio de pop-up)
   const msg = `Olá! Fiz uma simulação na Paz Solar 😊
 
+Telefone: ${telVal}
+CEP: ${cepVal}
 Município: ${munVal}
 Consumo: ${consumoVal} kWh
 
@@ -109,6 +141,7 @@ Consumo: ${consumoVal} kWh
   params.append("telefone", telVal);
   params.append("consumo", consumoVal);
   params.append("taxa", taxaVal);
+  params.append("cep", cepVal);
   params.append("municipio", munVal);
   params.append("fase", faseVal);
   params.append("resultado", resFormatado);
