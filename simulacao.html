@@ -77,17 +77,31 @@ function processarDados() {
   const consumoVal = parseFloat(document.getElementById("consumo").value);
   const taxaVal = parseFloat(document.getElementById("taxa").value);
   const faseVal = document.getElementById("fase").value;
-  
-  // Cálculo
-  const resultadoFinal = (Math.ceil(consumoVal / 78) * 78 * 0.53) + (consumoVal * 0.2115) + taxaVal;
-  const resFormatado = resultadoFinal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+const payload = {
+  telefone: telVal,
+  municipio: munVal,
+  consumo: consumoVal,
+  fase: faseVal
+};
+  
   // Mostra resultado na tela
-  document.getElementById("resultado").innerHTML = `Seu novo custo mensal simulado é de R$ ${resFormatado}`;
+function mostrarResultado(data) {
+  document.getElementById("resultado").innerHTML = `
+    Atual: ${data.atual}<br>
+    SCEE: ${data.scee}
+  `;
   document.getElementById("resultado").style.display = "block";
+}
 
   // 1️⃣ ABRE O WHATSAPP IMEDIATAMENTE (Ação direta do usuário evita bloqueio de pop-up)
-  const msg = `Olá! Fiz uma simulação na Paz Solar 😊\n\nTelefone: ${telVal}\nMunicípio: ${munVal}\nConsumo: ${consumoVal} kWh\n💡 Valor: R$ ${resFormatado}`;
+  const msg = `Olá! Fiz uma simulação na Paz Solar 😊
+
+Município: ${munVal}
+Consumo: ${consumoVal} kWh
+
+💡 Atual: ${data.atual}
+☀️ SCEE: ${data.scee}`;
   window.open("https://wa.me/5584996710787?text=" + encodeURIComponent(msg), "_blank");
 
   // 2️⃣ ENVIA PARA O GOOGLE SHEETS EM SEGUNDO PLANO
@@ -99,12 +113,17 @@ function processarDados() {
   params.append("fase", faseVal);
   params.append("resultado", resFormatado);
 
-  fetch(SCRIPT_URL, { 
-    method: "POST", 
-    mode: "no-cors", 
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params.toString() 
-  });
+fetch(SCRIPT_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+})
+.then(res => res.json())
+.then(data => {
+  mostrarResultado(data);
+});
 
   // Opcional: Desabilitar o botão por alguns segundos para evitar cliques duplos
   btn.disabled = true;
